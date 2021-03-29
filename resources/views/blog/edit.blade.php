@@ -28,9 +28,9 @@
 
         @csrf
         @method('PATCH')
-
-        <input type="text" name="title" value={{ $post->title }} class="bg-transparent block border-b-2 w-full h-20 text-6xl ouline-none">
-
+        {{-- {{ dd($post->title)}} --}}
+        <input type="text" name="title" value="{{ $post->title }}" class="bg-transparent block border-b-2 w-full h-20 text-6xl ouline-none">
+        {{-- <input type="text" name="title" value="한글슬러그-입니다-지아ㅓ@#%%@-=-ㅇㄴ945" class="bg-transparent block border-b-2 w-full h-20 text-6xl ouline-none"> --}}
         <textarea
             name="description"
             

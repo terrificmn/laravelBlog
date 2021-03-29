@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Libraries\Parsedown;
 use Illuminate\Http\Request;
 use App\Models\Post;
 #use Cviebrock\EloquentSluggable\Services\SlugService; #사용안함: 라이브러리설치안함
@@ -48,7 +47,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -78,8 +76,8 @@ class PostController extends Controller
             if ($i == $stringLen-1 ) {  #마지막에 #이 안나오므로 넣어주기
                 $tagArray[$count] = trim($temp);
             }
-
         }
+
         #dd($tagArray, $string, $i, $stringLen, $count);
 
         // markdown parse 하기 
@@ -148,8 +146,9 @@ class PostController extends Controller
             #그냥 create 메소드에 넣어 줌
             //dd($slug);
         }
-        
-        
+
+        // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
+        $slug = $this->cleanUrl($request->input('title'));
         Post::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -157,7 +156,9 @@ class PostController extends Controller
             # 컴포저로 설치하지 않고,  Str클래스 활용해보기
             #'slug' => $slug = SlugService::createSlug(Post::class, 'slug', $request->title), 
             #'slug' => $slug = Str::slug($request->title),
-            'slug' => Str::slug($request->title),
+            # Str 클래스의 slug는 영어만 지원이 되서 사용자함수 cleanUrl()로 대체
+            #'slug' => Str::slug($request->title),
+            'slug' => $slug,
             'image_path' => $newImageName,
             'user_id' => auth()->user()->id
         ]);
@@ -244,4 +245,11 @@ class PostController extends Controller
         return redirect('/blog')->with('message', 'Your post has been deleted!');
     }
 
+    public function cleanUrl ($string) {
+        $string = preg_replace("/[~`{}.'\"\!\@\#\$\%\^\&\*\(\)\_\-\=\/\?\<\>\,\[\]\:\;\|\\\]/", "", $string); //빈칸으로 바꿈
+        $string = preg_replace("/[\/_|+ -]+/", "-", $string);
+        return $string;
+    }
+
+    
 }
