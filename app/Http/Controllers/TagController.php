@@ -43,9 +43,10 @@ class TagController extends Controller
                 // 'user_id' => auth()->user()->id 이런느낌인데,, 다음에 도전;;
                 // ]);
                 
-            } else { # 1이면 있음
-                echo "있어요 입력하지 마요". $tagArray[ strval($i+1) ]."<br>"; //그냥 테스트용
-            }
+            } 
+            // else { # 1이면 있는 경우인데 있으면 입력안하니깐 딱히 else가 필요없음
+            //     echo "있어요 입력하지 마요". $tagArray[ strval($i+1) ]."<br>"; //그냥 테스트용
+            // }
         }
         
     }

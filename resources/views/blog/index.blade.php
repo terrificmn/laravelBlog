@@ -95,7 +95,10 @@
         </div>
 
         <div>
-            <span>#해쉬태그자리1 #해쉬태그자리2 ...</span>
+            <span>
+                {{-- {{ $post->tags->tag_name }} --}}
+                #해쉬태그자리1 #해쉬태그자리2 ...
+            </span>
         </div>
         
     </div>

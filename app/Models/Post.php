@@ -31,5 +31,6 @@ class Post extends Model
     //이렇게 관계정의를 해놓으면 create()로 db에 입력이 가능
     public function tags() {
         return $this->hasMany(\App\Models\Tag::class);
+        // use Illuminate\Database\Eloquent\Model; 위에서 사실 정의되어 있으면 Tag만 적어도 됨
     }
 }

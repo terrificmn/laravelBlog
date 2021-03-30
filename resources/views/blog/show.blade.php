@@ -26,7 +26,21 @@
     <div class="text-xl text-gray-700 pt-1 pb-1 leading-8 font-light">
         {!! $post->convertedMd !!}
     </div>
-
+    
+    <div>
+        <ul>
+            @forelse ($post->tags as $tag )
+                <li class='inline italic text-gray-600 px-1 py-3'>
+                    <a href="#"> {{ '#'.$tag['tag_name'] }} </a>   
+                </li>
+            @empty
+                <p>
+                    등록된 tag가 없습니다.
+                </p>
+            @endforelse
+        </ul>
+        
+    </div>
 </div>
 
 @endsection

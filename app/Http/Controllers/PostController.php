@@ -179,7 +179,19 @@ class PostController extends Controller
      */
     public function show($slug)  //url로 부터 받아옴 
     {
-        //원래 슬러그 한글을 못바꿈 
+        
+        // 슬러그 내용으로 검색한 것을 다시 id로 검색해서 컬렉션?을 만듬
+        // 슬러그를 검색한 결과를 가져와서 다시 id를 넘겨줘야 릴레이션을 이용해서 출력할 수 있는줄 알고;;
+        // 하지만 slug로 검색한 내용으로만으로도 이미 posts.id가 확복되어 있기 때문에 불필요한 코드
+        // $post = Post::where('slug', $slug)->first();
+        // $postId = $post->id;
+        // // id로 찾음
+        // $post = Post::find($postId);
+        // ##dd($post);
+        // return view('blog.show')->with('post', $post);
+
+        //(슬러그 한글은 못바꿈) // 한글 인식되는 방식으로 업데이트함
+        // show 페이지에서는 이제 tags()메소드만 호출해주면 된다
         return view('blog.show')->with('post', Post::where('slug', $slug)->first());
         
     }
@@ -211,12 +223,15 @@ class PostController extends Controller
             'description' => 'required',
             // 'image' => 'required|mimes:jpg,png,jpeg|max:5048'
         ]);
-
+        
+        // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
+        $slug = $this->cleanUrl($request->input('title'));
         Post::where('slug', $slug)->update( [ 
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             #'slug' => SlugService::createSlug(Post::class, 'slug', $request->title),
-            'slug' => Str::slug($request->title),
+            #'slug' => Str::slug($request->title),
+            'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
             'user_id' => auth()->user()->id
         ]);
 
