@@ -192,7 +192,16 @@ class PostController extends Controller
 
         //(슬러그 한글은 못바꿈) // 한글 인식되는 방식으로 업데이트함
         // show 페이지에서는 이제 tags()메소드만 호출해주면 된다
-        return view('blog.show')->with('post', Post::where('slug', $slug)->first());
+
+        // posts 테이블 중 convertedMd 내용에서 태그들 수정
+        $posts = Post::where('slug', $slug)->first();
+        $originMd = $posts->convertedMd;
+        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-5xl text-blue-400\">", $originMd);
+        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-4xl text-orange-400\">", $replacedMd);
+        // 기존 post모델 컬렉션? 에서 추가로 변환된 convertedMd컬럼도 보냄
+        return view('blog.show')->with(['post'=> Post::where('slug', $slug)->first(),
+                                        'postMd'=> $replacedMd
+                                        ]);
         
     }
 

@@ -1,4 +1,4 @@
-<footer class="bg-gray-800 py-20 mt-20">
+<footer class="bg-yellow-300 py-20 mt-20"> <!--bg-gray-800-->
     <div class="sm:grid grid-cols-3 w-4/5 pb-10 m-auto border-b-2 border-gray-700">
         <div>
             <h3 class="text-l sm:font-bold text-gray-100">
