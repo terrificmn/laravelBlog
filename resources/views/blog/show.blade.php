@@ -22,9 +22,11 @@
         
     </p>
 
-    <div class="text-xl text-gray-700 pt-1 pb-1 leading-8 font-light">
+    <div class="text-xl text-gray-700 pt-1 pb-1 leading-8 font-light space-y-3">
         {{-- {!! $post->convertedMd !!} --}}
+        <h1 class="text-4xl text-orange-400 my-2">테스트입니다.</h1>
         {!! $postMd !!}
+        
     </div>
     
     <div class="m-auto pt-5">

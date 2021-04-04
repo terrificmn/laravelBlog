@@ -22,7 +22,7 @@
 <!-- login user auth check -->
 @if (Auth::check())  
     <div class="pt-15 w-4/5 m-auto">
-        <a href="/blog/create" class="bg-blue-500 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
+        <a href="/blog/create" class="bg-blue-800 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
             Create Post
         </a>
     </div>
@@ -64,7 +64,7 @@
 
             </p>
 
-            <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
                 Keep Reading
             </a>
 
@@ -94,12 +94,20 @@
             @endif
         </div>
 
-        <div>
-            <span>
-                {{-- {{ $post->tags->tag_name }} --}}
-                #해쉬태그자리1 #해쉬태그자리2 ...
-            </span>
+        <div class="m-auto pt-5">
+            <ul>
+                @forelse ($post->tags as $tag )
+                    <li class='inline italic text-gray-600 px-1 py-3'>
+                        <a href="#"> {{ '#'.$tag['tag_name'] }} </a>   
+                    </li>
+                @empty
+                    <li class='inline italic text-gray-600 px-1 py-3'>
+                        등록된 tag가 없습니다.
+                    </li>
+                @endforelse
+            </ul>
         </div>
+
         
     </div>
 

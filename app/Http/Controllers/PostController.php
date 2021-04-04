@@ -151,7 +151,7 @@ class PostController extends Controller
         $slug = $this->cleanUrl($request->input('title'));
         Post::create([
             'title' => $request->input('title'),
-            'description' => $request->input('description'),
+            'description' => trim($request->input('description')),
             'convertedMd' => $covertedTxt_Md,
             # 컴포저로 설치하지 않고,  Str클래스 활용해보기
             #'slug' => $slug = SlugService::createSlug(Post::class, 'slug', $request->title), 
@@ -196,8 +196,14 @@ class PostController extends Controller
         // posts 테이블 중 convertedMd 내용에서 태그들 수정
         $posts = Post::where('slug', $slug)->first();
         $originMd = $posts->convertedMd;
-        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-5xl text-blue-400\">", $originMd);
-        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-4xl text-orange-400\">", $replacedMd);
+        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-5xl text-blue-400 my-3 py-2\">", $originMd);
+        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-4xl text-orange-400 py-2\">", $replacedMd);
+        $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-4 border-gray-400 italic\">", $replacedMd);
+        $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg m-5 w-5/6 mx-auto text-gray-200\">", $replacedMd);
+        $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-700 text-left border-b border-gray-300\">", $replacedMd);
+        $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500\">", $replacedMd);
+
+        
         // 기존 post모델 컬렉션? 에서 추가로 변환된 convertedMd컬럼도 보냄
         return view('blog.show')->with(['post'=> Post::where('slug', $slug)->first(),
                                         'postMd'=> $replacedMd
@@ -226,7 +232,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $slug)
     {
-
+        //dd($request->input('textMd'));
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -240,6 +246,7 @@ class PostController extends Controller
             'description' => $request->input('description'),
             #'slug' => SlugService::createSlug(Post::class, 'slug', $request->title),
             #'slug' => Str::slug($request->title),
+            'convertedMd' => $request->input('textMd'),
             'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
             'user_id' => auth()->user()->id
         ]);
