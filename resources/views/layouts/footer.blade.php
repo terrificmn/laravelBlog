@@ -2,7 +2,7 @@
     <div class="sm:grid grid-cols-3 w-4/5 pb-10 m-auto border-b-2 border-gray-700">
         <div>
             <h3 class="text-l sm:font-bold text-gray-100">
-                Pages change test
+                Pages
             </h3>
             
             <ul class="py-4 sm:text-s pt-4 text-gray-400">
