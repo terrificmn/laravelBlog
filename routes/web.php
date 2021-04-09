@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\PageController@index');
 Route::resource('/blog', 'App\Http\Controllers\PostController');
 
+Route::get('/tag', 'App\Http\Controllers\TagController@index');
+
 Auth::routes(); //tailwind auth 으로 설치하면서 생김
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');

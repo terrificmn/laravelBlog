@@ -8,8 +8,12 @@ use App\Models\Tag;
 class TagController extends Controller
 {
 
-    //     #Post::orderBy('updated_at', 'DESC')->get();
-    //     // for ($i=0; $i < $tagCount; $i++) {
+    public function index() {
+        
+        #$tag = \App\Models\Tag::all();
+        return view('tag.index')->with('tags', Tag::orderBy('updated_at', 'DESC')->get());
+        
+    }
 
     public function store($tagArray){
         
