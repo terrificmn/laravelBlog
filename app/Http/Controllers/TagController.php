@@ -12,8 +12,13 @@ class TagController extends Controller
         
         #$tag = \App\Models\Tag::all();
         return view('tag.index')->with('tags', Tag::orderBy('updated_at', 'DESC')->get());
-        
+        #return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->get());
     }
+
+    public function test() {
+        dd('i don\'t know where to start');
+    }
+
 
     public function store($tagArray){
         

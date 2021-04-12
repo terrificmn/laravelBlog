@@ -20,6 +20,7 @@ Route::get('/', 'App\Http\Controllers\PageController@index');
 Route::resource('/blog', 'App\Http\Controllers\PostController');
 
 Route::get('/tag', 'App\Http\Controllers\TagController@index');
+Route::get('/tag/{tag_name}', 'App\Http\Controllers\TagController@test');
 
 Auth::routes(); //tailwind auth 으로 설치하면서 생김
 
