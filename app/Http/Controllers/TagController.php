@@ -8,15 +8,12 @@ use App\Models\Tag;
 class TagController extends Controller
 {
 
-    public function index() {
+    public function index($tag_id) {
+        # /tag/{tag_name}
+        return view('tag.index')->with('tags', Tag::where('tag_name', $tag_id)
+                                                            ->orderBy('updated_at', 'desc')
+                                                            ->get());
         
-        #$tag = \App\Models\Tag::all();
-        return view('tag.index')->with('tags', Tag::orderBy('updated_at', 'DESC')->get());
-        #return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->get());
-    }
-
-    public function test() {
-        dd('i don\'t know where to start');
     }
 
 
@@ -58,5 +55,9 @@ class TagController extends Controller
             // }
         }
         
+    }
+
+    public function create() {
+        dd("hello");
     }
 }

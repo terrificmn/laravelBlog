@@ -36,7 +36,7 @@
             <img src="{{ asset('images/' .$post->image_path) }}" alt="" width="700">
         </div>
         
-        <div>
+        <div class="py-5">
             <h2 class="text-gray-700 font-bold text-5xl pb-4">
                 {{ $post->title }}
             </h2>
@@ -48,20 +48,18 @@
             
             <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
             <?php 
-                //echo strlen($post->description). ' ';
-                
-                if (strlen($post->description) < 100) {
-                    $substring = $post->description;
 
-                } else { #100자 이상이면 ...을 붙여준다
-                    echo $substring = substr_replace($post->description, '...', 100);
+            $dest_len = strlen($post->description);
+            if ($dest_len < 100) {
+                echo nl2br(e($post->description));
 
-                }
-                //substr($post->description, 0, 20)."...";
+            } else { #100자 이상이면 ...을 붙여준다
+                // $substring = substr_replace($tag->post->description, '...', 101);
+                #substring은 한글이 깨져서 mb_substr()로 대체
+                $substring = mb_substr($post->description, 0, -60, 'UTF-8');
+                echo $substring.' ...';
+            }
             ?>
-                {!! nl2br(e($substring)) !!}
-                <!-- {{ $substring }} -->
-
             </p>
 
             <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
@@ -94,11 +92,11 @@
             @endif
         </div>
 
-        <div class="m-auto pt-5">
+        <div class="m-auto pt-7">
             <ul>
                 @forelse ($post->tags as $tag )
-                    <li class='inline italic text-gray-600 px-1 py-3'>
-                        <a href="#"> {{ '#'.$tag['tag_name'] }} </a>   
+                    <li class='inline italic text-gray-600 px-2 py-3'>
+                        <a href="/tag/{{ $tag['tag_name'] }}"> {{ '#'.$tag['tag_name'] }} </a>   
                     </li>
                 @empty
                     <li class='inline italic text-gray-600 px-1 py-3'>
