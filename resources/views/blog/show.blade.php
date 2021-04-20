@@ -45,7 +45,7 @@
 
     <!-- comment form -->
     <div class="m-auto shadow-lg mt-20 mx-8 mb-4 max-w-lg">
-        <form class="w-full max-w-xl bg-gray-200 rounded-lg px-4 pt-2" action="/comments/create" method="post">
+        <form class="w-full max-w-xl bg-gray-200 rounded-lg px-4 pt-2" action="/comment/create" method="post">
             @csrf
 
             <div class="flex flex-wrap -mx-3 mb-6 bg-gray-200">
@@ -56,6 +56,7 @@
                 <div class="w-full md:w-full flex items-start md:w-full px-3">
                     <div class="">
                         {{-- <input type='submit' class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100" value='Post Comment'> --}}
+                        <input type="hidden" name="post_id" value="{{$post->id}}">
                         <button>전송</button>
                     </div>
                 </div>

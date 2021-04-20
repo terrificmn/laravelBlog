@@ -20,11 +20,9 @@ class CreateCommentsTable extends Migration
         //     user_id int unsigned,
         //     post_id int
         //     );
-        ### 대충 만듬... 확인 후 migrate 하기아직 commit안함 // 커밋시 커멘트 삭제
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('context');
+            $table->string('text');
             $table->unsignedBigInteger('user_id');
             $table->integer('post_id')->unsigned();
             $table->timestamps();

@@ -22,6 +22,8 @@ Route::resource('/blog', 'App\Http\Controllers\PostController');
 
 Route::get('/tag/{tag_name}', 'App\Http\Controllers\TagController@index');
 
+Route::post('/comment/create', 'App\Http\Controllers\CommentController@store');
+
 Auth::routes(); //tailwind auth 으로 설치하면서 생김
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
