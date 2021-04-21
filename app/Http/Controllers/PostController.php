@@ -203,10 +203,23 @@ class PostController extends Controller
         $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-700 text-left border-b border-gray-300\">", $replacedMd);
         $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500\">", $replacedMd);
 
+        # posts 테이블의 comment() 메소드로 코멘트 불러오기
+        $commentCnt = count($posts->comment);
+        #댓글 comment가 있는지 관계로 확인 없으면 0
+        if ($commentCnt != 0) {
+            # 댓글 달린 만큼 배열에 넣어주기;; 효과적인지는 모르겠음- APR.21 2001
+            for ($i=0; $i< $commentCnt; $i++) {
+                # 배열로 만들어 주기
+                $commentText[] = $posts->comment[$i]->text;
+            }
+        } else { # comment가 없으면 empty 배열로 보내기, 블레이드 @empty로 처리
+            $commentText = [];
+        }
         
-        // 기존 post모델 컬렉션? 에서 추가로 변환된 convertedMd컬럼도 보냄
+        // 기존 post모델 컬렉션? 에서 추가로 변환된 convertedMd컬럼도 보냄, 댓글(comment)도 보냄
         return view('blog.show')->with(['post'=> Post::where('slug', $slug)->first(),
-                                        'postMd'=> $replacedMd
+                                        'postMd'=> $replacedMd,
+                                        'commentTxt' => $commentText
                                         ]);
         
     }

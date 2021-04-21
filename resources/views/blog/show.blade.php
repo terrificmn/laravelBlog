@@ -43,26 +43,66 @@
         
     </div>
 
-    <!-- comment form -->
-    <div class="m-auto shadow-lg mt-20 mx-8 mb-4 max-w-lg">
-        <form class="w-full max-w-xl bg-gray-200 rounded-lg px-4 pt-2" action="/comment/create" method="post">
-            @csrf
+    {{-- 사용자 확인 --}}
+    <div>
+        {{-- {{ dd($post->comment[0]->user_id)}} --}}
+    <h1 class="mt-20"> 테스트 사용자 확인 및 댓글 테스트</h1>
+    @if (isset(Auth::user()->id) && isset($post->comment[0]->user_id) && Auth::user()->id == $post->comment[0]->user_id)
+        
+        <span class="float-right">
+            <a href="/comment/{{ $post->comment[0]->id }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+                Comment Edit 
+            </a>
+        </span>
 
-            <div class="flex flex-wrap -mx-3 mb-6 bg-gray-200">
-                <h2 class="px-4 pt-3 pb-2 text-gray-700 text-lg">댓글 테스트</h2>
-                <div class="w-full md:w-full px-3 mb-2 mt-2">
-                    <textarea class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="body" placeholder='Type Your Comment' required></textarea>
-                </div>
-                <div class="w-full md:w-full flex items-start md:w-full px-3">
-                    <div class="">
-                        {{-- <input type='submit' class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100" value='Post Comment'> --}}
-                        <input type="hidden" name="post_id" value="{{$post->id}}">
-                        <button>전송</button>
+        <span class="float-right">
+            <form
+                {{-- action="/blog/{{ $post->slug }}" --}}
+                action="/comment/{{ $post->comment[0]->id }}"
+                method="post">
+                {{-- @csrf
+                @method('DELETE') --}}
+
+                <button 
+                    class="text-red-500 pr-3" type="submit">
+                    Delete comment
+                </button>
+            </form>
+        </span>
+        
+    @endif
+    </div>
+
+
+    <div class="app min-h-screen min-v-screen p-8 bg-gray-lightest font-sans rounded">
+            <div>
+                {{-- {{dd($commentTxt)}} --}}
+                @forelse($commentTxt as $txt)
+                    <h3> {{$txt}} </h3>
+                @empty
+                    <h3>댓글이 없습니다. </h3>
+                @endforelse
+            </div>
+            <form action="/comment/create" method="post">
+                @csrf
+                <div class="box border rounded flex flex-col shadow bg-gray-200 sm:w-4/5">
+                    <div class="box_title bg-grey-lighter px-3 py-2 border-b">
+                        <label class="block">
+                            <span class="text-gray-700">댓글을 달아 주세요!</span>
+                        {{-- bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" --}}
+                            <textarea required name="comment" placeholder="오늘도선플" 
+                                    class="form-textarea rounded resize-none text-grey-darkest w-full flex-1 p-2 mt-3 bg-white bg-transparent"></textarea>
+                        </label>
                     </div>
                 </div>
-        </form>
-        </div>
+                
+                <div>
+                    <input type="hidden" name="post_id" value="{{$post->id}}">
+                        <button type="submit">전송</button>
+                </div>
+            </form>
     </div>
+
 
 
 </div>
