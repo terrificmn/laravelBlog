@@ -33,9 +33,7 @@
         {{-- <input type="text" name="title" value="한글슬러그-입니다-지아ㅓ@#%%@-=-ㅇㄴ945" class="bg-transparent block border-b-2 w-full h-20 text-6xl ouline-none"> --}}
         <textarea
             name="description"
-            
-            class="py-5 bg-transparent block border-b-2 w-full h-60 text-xl outlilne-none">{{ $post->description }}
-        </textarea>
+            class="py-5 bg-transparent block border-b-2 w-full h-60 text-xl outlilne-none">{{ $post->description }} </textarea>
 
         @if ($post->convertedMd == 'NONE')
             <div>

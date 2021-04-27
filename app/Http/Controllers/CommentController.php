@@ -24,4 +24,8 @@ class CommentController extends Controller
 
     }
 
+    public function update() {
+        dd('hello, comment is being updated');
+    }
+
 }

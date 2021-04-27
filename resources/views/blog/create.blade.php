@@ -44,8 +44,7 @@
         <textarea
             name="description"
             placeholder="Description..."
-            class="py-5 bg-transparent block border-b-2 w-full h-60 text-1xl outlilne-none">
-        </textarea>
+            class="py-5 bg-transparent block border-b-2 w-full h-60 text-1xl outlilne-none"></textarea>
 
         <label class="m-auto pt-10">해쉬태그를 원하면 입력해 주세요.</label>
         <input type="text" name="tag" placeholder="tag..." class="bg-transparent block border-b-2 w-full h-20 text-2xl ouline-none">
