@@ -123,6 +123,10 @@ class PostController extends Controller
             }   
         } 
 
+
+        // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
+        $slug = $this->cleanUrl($request->input('title'));
+
         // 임시로 만듬, 이미지 validate 풀면 지워도 됨 2021 3 17
         // else 괄호도 지워야 함
         if (!$request->image) {
@@ -135,7 +139,7 @@ class PostController extends Controller
             ]);
 
             # image이름 만들어 주기(업로드 위해서  uniqid() 를 이용 유니크한 숫자를 만들어 준다)
-            $newImageName = uniqid(). '-' . $request->title . '.' . $request->image->extension();
+            $newImageName = uniqid(). '-' . $slug . '.' . $request->image->extension();
             //dd($newImageName);
 
             // image->move() 메소드해서 public_path()는 디렉토리가 없으면 알아서 만들어 준다
@@ -147,8 +151,7 @@ class PostController extends Controller
             //dd($slug);
         }
 
-        // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
-        $slug = $this->cleanUrl($request->input('title'));
+        
         Post::create([
             'title' => $request->input('title'),
             'description' => trim($request->input('description')),
