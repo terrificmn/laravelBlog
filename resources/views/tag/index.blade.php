@@ -26,7 +26,7 @@
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
         <div>
-            <img src="{{ asset('images/' .$tag->image_path) }}" alt="" width="700">
+            <img src="{{ asset('images/' .$tag->post->image_path) }}" alt="" width="700">
         </div>
         
         <div class="py-5">
@@ -49,7 +49,7 @@
                 } else { #100자 이상이면 ...을 붙여준다
                     // $substring = substr_replace($tag->post->description, '...', 101);
                     #substring은 한글이 깨져서 mb_substr()로 대체
-                    $substring = mb_substr($tag->post->description, 0, -60, 'UTF-8');
+                    $substring = mb_substr($tag->post->description, 0, 50, 'UTF-8');
                     echo $substring.' ...';
                 }
             ?>
@@ -61,21 +61,24 @@
             </a>
 
         </div>
+
+        <div class="m-auto pt-7">
+            <ul>
+                @forelse ($tag->post->tags as $item)
+                    <li class='inline italic text-gray-600 px-2 py-3'>
+                        <a href="/tag/{{ $item['tag_name'] }}"> {{ '#'.$item['tag_name'] }} </a>   
+                        
+                    </li>
+                @empty
+                    <li class='inline italic text-gray-600 px-1 py-3'>
+                        등록된 tag가 없습니다.
+                    </li>
+                @endforelse
+            </ul>
+        </div>
+
     </div>
 
 @endforeach
 
 @endsection
-
-
-
-{{-- {{ dd($tags[0]->post->description)}}  --}}
-{{-- @forelse ($tags[1]->post as $item )
-<li class='inline italic text-gray-600 px-1 py-3'>
-    <a href="/tag"> {{ dd($item) }} </a>   
-</li>
-@empty
-<li class='inline italic text-gray-600 px-1 py-3'>
-    등록된 tag가 없습니다.
-</li>
-@endforelse --}}

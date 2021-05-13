@@ -56,7 +56,7 @@
             } else { #100자 이상이면 ...을 붙여준다
                 // $substring = substr_replace($tag->post->description, '...', 101);
                 #substring은 한글이 깨져서 mb_substr()로 대체
-                $substring = mb_substr($post->description, 0, -60, 'UTF-8');
+                $substring = mb_substr($post->description, 0, 50, 'UTF-8');
                 echo $substring.' ...';
             }
             ?>

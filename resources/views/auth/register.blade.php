@@ -71,10 +71,11 @@
                     </div>
 
                     <div class="flex flex-wrap">
-                        <button type="submit"
+                        <!-- <button type="submit"
                             class="w-full select-none font-bold whitespace-no-wrap p-3 rounded-lg text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-blue-700 sm:py-4">
                             {{ __('Register') }}
-                        </button>
+                        </button> -->
+                        회원가입 하실 수 없습니다.
 
                         <p class="w-full text-xs text-center text-gray-700 my-6 sm:text-sm sm:my-8">
                             {{ __('Already have an account?') }}
