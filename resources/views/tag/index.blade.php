@@ -62,12 +62,12 @@
 
         </div>
 
-        <div class="m-auto pt-7">
+        <div class="m-auto pt-5">
             <ul>
                 @forelse ($tag->post->tags as $item)
-                    <li class='inline italic text-gray-600 px-2 py-3'>
+                    <li class="inline italic text-gray-600 px-2 leading-normal" >
                         <a href="/tag/{{ $item['tag_name'] }}"> {{ '#'.$item['tag_name'] }} </a>   
-                        
+                        <!-- px-2 py-3 pt-10 -->
                     </li>
                 @empty
                     <li class='inline italic text-gray-600 px-1 py-3'>

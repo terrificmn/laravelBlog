@@ -199,12 +199,14 @@ class PostController extends Controller
         // posts 테이블 중 convertedMd 내용에서 태그들 수정
         $posts = Post::where('slug', $slug)->first();
         $originMd = $posts->convertedMd;
-        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-blue-400 py-2\">", $originMd);
-        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-orange-400 py-2\">", $replacedMd);
+        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-blue-400 py-1 leading-normal\">", $originMd);
+        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-orange-400 py-1 leading-normal\">", $replacedMd);
         $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-4 border-gray-400 italic\">", $replacedMd);
         $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg m-5 w-5/6 mx-auto text-gray-200\">", $replacedMd);
         $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-700 text-left border-b border-gray-300\">", $replacedMd);
-        $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500\">", $replacedMd);
+        $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500 hover:bg-gray-100\">", $replacedMd);
+        $replacedMd = preg_replace("/<a href=/", "<a class=\"text-indigo-600 hover:underline\" href=", $replacedMd);
+        
 
         # posts 테이블의 comment() 메소드로 코멘트 불러오기
         $commentCnt = count($posts->comment);
