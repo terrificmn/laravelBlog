@@ -31,7 +31,7 @@
     <div class="m-auto pt-5">
         <ul>
             @forelse ($post->tags as $tag )
-                <li class='inline italic text-gray-600 px-1 py-3'>
+                <li class='inline italic text-gray-600 px-1 leading-normal'>
                     <a href="/tag/{{ $tag['tag_name'] }}"> {{ '#'.$tag['tag_name'] }} </a>   
                 </li>
             @empty

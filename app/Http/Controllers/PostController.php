@@ -257,13 +257,14 @@ class PostController extends Controller
             // 'image' => 'required|mimes:jpg,png,jpeg|max:5048'
         ]);
         
+        // 예전 slug로 비교해야지 update where clause를 불러올 수 있음
+        $exSlug = $slug;
         // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
         $slug = $this->cleanUrl($request->input('title'));
-        Post::where('slug', $slug)->update( [ 
+        
+        Post::where('slug', $exSlug)->update( [ 
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            #'slug' => SlugService::createSlug(Post::class, 'slug', $request->title),
-            #'slug' => Str::slug($request->title),
             'convertedMd' => $request->input('textMd'),
             'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
             'user_id' => auth()->user()->id

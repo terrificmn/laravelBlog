@@ -15,12 +15,16 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
+    <!-- filepond -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+
     <!-- highlight.js theme: agate -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/agate.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 
+    <!-- nav menu -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 
 </head>
@@ -70,5 +74,10 @@
             @include('layouts.footer')
         </div>
     </div>
+
+    <!-- add before </body> -->
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    @yield('scripts')
+
 </body>
 </html>

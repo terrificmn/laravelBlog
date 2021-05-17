@@ -29,6 +29,7 @@ Auth::routes(); //tailwind auth 으로 설치하면서 생김
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::post('/upload', [\App\Http\Controllers\UploadController::class, 'store']);
 
 // Auth::routes();
 

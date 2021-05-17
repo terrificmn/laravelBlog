@@ -58,7 +58,14 @@
                 <input type="file" name="image" class="hidden">
         </div>
 
-        <div class="bg-gray-lighter pt-5">
+        <!-- 좀 더 연구가 필요함 : filepond 하는 중 -->
+        <!-- <div class="bg-gray-lighter pt-10">
+            테스트 filepond 이미지
+            <input type="file" name="imageFile" id="imageFile">
+        </div> -->
+
+
+        <div class="bg-gray-lighter pt-10">
             <label class="w-44 flex flex-col items-center px-2 py-3 bg-white-rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer">
                 <span class="mt-2 text-base leading-normal">
                     Select a file
@@ -72,4 +79,20 @@
     </form>
 </div>
 
+@endsection
+
+@section('scripts')
+        <script>
+        const inputElement = document.querySelector('input[id="imageFile"]');
+        const pond = FilePond.create( inputElement );
+
+        FilePond.setOptions({
+            server: {
+                url: '/upload',
+                header: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' //java script varible로 만듬
+                }
+            }
+        });
+        </script>
 @endsection
