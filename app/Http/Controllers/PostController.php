@@ -154,19 +154,19 @@ class PostController extends Controller
         }
 
         
-        $post = Post::create([
-            'title' => $request->input('title'),
-            'description' => trim($request->input('description')),
-            'convertedMd' => $covertedTxt_Md,
-            # 컴포저로 설치하지 않고,  Str클래스 활용해보기
-            #'slug' => $slug = SlugService::createSlug(Post::class, 'slug', $request->title), 
-            #'slug' => $slug = Str::slug($request->title),
-            # Str 클래스의 slug는 영어만 지원이 되서 사용자함수 cleanUrl()로 대체
-            #'slug' => Str::slug($request->title),
-            'slug' => $slug,
-            'image_path' => $newImageName,
-            'user_id' => auth()->user()->id
-        ]);
+        // $post = Post::create([
+        //     'title' => $request->input('title'),
+        //     'description' => trim($request->input('description')),
+        //     'convertedMd' => $covertedTxt_Md,
+        //     # 컴포저로 설치하지 않고,  Str클래스 활용해보기
+        //     #'slug' => $slug = SlugService::createSlug(Post::class, 'slug', $request->title), 
+        //     #'slug' => $slug = Str::slug($request->title),
+        //     # Str 클래스의 slug는 영어만 지원이 되서 사용자함수 cleanUrl()로 대체
+        //     #'slug' => Str::slug($request->title),
+        //     'slug' => $slug,
+        //     'image_path' => $newImageName,
+        //     'user_id' => auth()->user()->id
+        // ]);
 
         // 객체 생성
         $Tag = new \App\Http\Controllers\TagController; 
@@ -174,7 +174,17 @@ class PostController extends Controller
         
         //dd($request->imageFile); //input의 imageFile이 uploadController를 거쳐서 dirname으로 반환된 값
         //temporaryFile db에 있는지 확인
+        //$temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first();
+
+        //dd($request->imageFile); 현재 배열로 생성된 디렉토리명 반환
+        foreach ($request->imageFile as $dirName) {
+
+        }
+
         $temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first();
+
+        #$res = $Tag->where('tag_name', $tagArray[ strval($i+1) ] )->get()->count();
+        dd($temporaryFile);
 
         if ($temporaryFile) {
             $from_path = storage_path('app/images/tmp/' . $request->imageFile . '/' . $temporaryFile->filename);

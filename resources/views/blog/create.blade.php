@@ -61,7 +61,8 @@
         <!-- 좀 더 연구가 필요함 : filepond 하는 중 -->
         <div class="bg-gray-lighter pt-10">
             테스트 filepond 이미지
-            <input type="file" name="imageFile" id="imageFile">
+            <!-- <input type="file" name="imageFile" id="imageFile"> -->
+            <input type="file" name="imageFile[]" id="imageFile" multiple data-max-file-size="20MB"/>
         </div>
 
 
