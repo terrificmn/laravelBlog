@@ -59,10 +59,10 @@
         </div>
 
         <!-- 좀 더 연구가 필요함 : filepond 하는 중 -->
-        <!-- <div class="bg-gray-lighter pt-10">
+        <div class="bg-gray-lighter pt-10">
             테스트 filepond 이미지
             <input type="file" name="imageFile" id="imageFile">
-        </div> -->
+        </div>
 
 
         <div class="bg-gray-lighter pt-10">
@@ -83,16 +83,16 @@
 
 @section('scripts')
         <script>
-        const inputElement = document.querySelector('input[id="imageFile"]');
-        const pond = FilePond.create( inputElement );
+            const inputElement = document.querySelector('input[id="imageFile"]');
+            const pond = FilePond.create( inputElement );
 
-        FilePond.setOptions({
-            server: {
-                url: '/upload',
-                header: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}' //java script varible로 만듬
+            FilePond.setOptions({
+                server: {
+                    url: '/upload',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' //java script varible로 만듬
+                    }
                 }
-            }
-        });
+            });
         </script>
 @endsection

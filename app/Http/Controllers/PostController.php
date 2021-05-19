@@ -7,6 +7,8 @@ use App\Models\Post;
 #use Cviebrock\EloquentSluggable\Services\SlugService; #사용안함: 라이브러리설치안함
 use Illuminate\Support\Str;
 use App\Models\Tag;
+use App\Models\TemporaryFile;
+use File;
 
 class PostController extends Controller
 {
@@ -152,7 +154,7 @@ class PostController extends Controller
         }
 
         
-        Post::create([
+        $post = Post::create([
             'title' => $request->input('title'),
             'description' => trim($request->input('description')),
             'convertedMd' => $covertedTxt_Md,
@@ -169,10 +171,31 @@ class PostController extends Controller
         // 객체 생성
         $Tag = new \App\Http\Controllers\TagController; 
         $Tag->store($tagArray);
+        
+        //dd($request->imageFile); //input의 imageFile이 uploadController를 거쳐서 dirname으로 반환된 값
+        //temporaryFile db에 있는지 확인
+        $temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first();
 
+        if ($temporaryFile) {
+            $from_path = storage_path('app/images/tmp/' . $request->imageFile . '/' . $temporaryFile->filename);
+            //디렉토리가 없으므로 만들기
+            mkdir(storage_path('app/public/images/post_images/'). $request->imageFile);
+            $to_path = storage_path('app/public/images/post_images/' . $request->imageFile. '/' . $temporaryFile->filename);
+
+            // tmp 디렉토리에 업로드된 파일 이동시켜주기
+            File::move($from_path, $to_path);
+
+            // $post->addMedia(storage_path('app/images/tmp/' . $request->imageFile . '/' . $temporaryFile->filename))
+            // ->toMediaCollection('imageFile');
+
+            // db에서 delete
+            $temporaryFile->delete();
+
+        }
         return redirect('/blog')->with('message', 'Your post has been added!');
 
     }
+
 
     /**
      * Display the specified resource.
