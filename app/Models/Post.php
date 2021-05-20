@@ -37,4 +37,8 @@ class Post extends Model
     public function comment() {
         return $this->hasMany(\App\Models\Comment::class);
     }
+
+    public function postimage() {
+        return $this->hasMany(\App\Models\Comment::class);
+    }
 }

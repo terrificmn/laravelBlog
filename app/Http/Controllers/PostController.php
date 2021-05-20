@@ -56,6 +56,7 @@ class PostController extends Controller
         ]);
         
         #dd($request->tag); 
+        // tag 입력있으면 만들어 주기
         $string = $request->tag;
         $stringLen = strlen($request->tag); 
         $count = 0;
@@ -134,7 +135,6 @@ class PostController extends Controller
         if (!$request->image) {
             $newImageName = 'NONE';
         } else {
-
             // 이미지가 있는 경우에 다시 validate
             $request->validate([
                 'image' => 'required|mimes:jpg,png,jpeg|max:5048',
@@ -154,54 +154,71 @@ class PostController extends Controller
         }
 
         
-        // $post = Post::create([
-        //     'title' => $request->input('title'),
-        //     'description' => trim($request->input('description')),
-        //     'convertedMd' => $covertedTxt_Md,
-        //     # 컴포저로 설치하지 않고,  Str클래스 활용해보기
-        //     #'slug' => $slug = SlugService::createSlug(Post::class, 'slug', $request->title), 
-        //     #'slug' => $slug = Str::slug($request->title),
-        //     # Str 클래스의 slug는 영어만 지원이 되서 사용자함수 cleanUrl()로 대체
-        //     #'slug' => Str::slug($request->title),
-        //     'slug' => $slug,
-        //     'image_path' => $newImageName,
-        //     'user_id' => auth()->user()->id
-        // ]);
-
-        // 객체 생성
+        $post = Post::create([
+            'title' => $request->input('title'),
+            'description' => trim($request->input('description')),
+            'convertedMd' => $covertedTxt_Md,
+            # 컴포저로 설치하지 않고,  Str클래스 활용해보기
+            #'slug' => $slug = SlugService::createSlug(Post::class, 'slug', $request->title), 
+            #'slug' => $slug = Str::slug($request->title),
+            # Str 클래스의 slug는 영어만 지원이 되서 사용자함수 cleanUrl()로 대체
+            #'slug' => Str::slug($request->title),
+            'slug' => $slug,
+            'image_path' => $newImageName,
+            'user_id' => auth()->user()->id
+        ]);
+        
+        // Tag 객체 생성
         $Tag = new \App\Http\Controllers\TagController; 
         $Tag->store($tagArray);
         
+
+        // filepond로 이미지 업로드 된 것 최종 처리
         //dd($request->imageFile); //input의 imageFile이 uploadController를 거쳐서 dirname으로 반환된 값
-        //temporaryFile db에 있는지 확인
+        //dd($request->imageFile); fildpond에서 이미지 업로드 후 배열로 생성된 디렉토리명 반환해 줌
+        // 싱글 용
         //$temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first();
 
-        //dd($request->imageFile); 현재 배열로 생성된 디렉토리명 반환
-        foreach ($request->imageFile as $dirName) {
-
-        }
-
-        $temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first();
-
-        #$res = $Tag->where('tag_name', $tagArray[ strval($i+1) ] )->get()->count();
-        dd($temporaryFile);
+        //temporaryFile db에 있는지 확인
+        $temporaryFile = TemporaryFile::whereIn('dirname', $request->imageFile)->get();
+        //$temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first(); //싱글파일
 
         if ($temporaryFile) {
-            $from_path = storage_path('app/images/tmp/' . $request->imageFile . '/' . $temporaryFile->filename);
-            //디렉토리가 없으므로 만들기
-            mkdir(storage_path('app/public/images/post_images/'). $request->imageFile);
-            $to_path = storage_path('app/public/images/post_images/' . $request->imageFile. '/' . $temporaryFile->filename);
+            //한번만 만들기 (임시로 저장할 때는 사진 당 디렉토리 하나)
+            mkdir(storage_path('app/public/images/post_images/'). $request->imageFile[0]);
+            foreach($temporaryFile as $imageDirFile) {
+                $from_path = storage_path('app/images/tmp/' . $imageDirFile->dirname . '/' . $imageDirFile->filename);
 
-            // tmp 디렉토리에 업로드된 파일 이동시켜주기
-            File::move($from_path, $to_path);
-
-            // $post->addMedia(storage_path('app/images/tmp/' . $request->imageFile . '/' . $temporaryFile->filename))
-            // ->toMediaCollection('imageFile');
-
-            // db에서 delete
-            $temporaryFile->delete();
-
+                //디렉토리가 없으므로 만들기 // array로 넘어온 것의 첫번째만 사용해서 디렉토리는 하나로 통일
+                $to_path = storage_path('app/public/images/post_images/' . $request->imageFile[0]. '/' . $imageDirFile->filename);
+                // tmp 디렉토리에 업로드된 파일 이동시켜주기
+                File::move($from_path, $to_path);
+            }
+            
+            $PostImages = new \App\Http\Controllers\PostImageController;
+            // temporaryFile로 결과, 마지막 post에서 마지막 id값 넘겨주기
+            $PostImages->store($temporaryFile, $post->id); 
+            
+            // collection이라서 그런지 다시 쿼리 빌드해서 지워주기 (변수로 하면 안됨)
+            TemporaryFile::whereIn('dirname', $request->imageFile)->delete();
         }
+
+////// 사진 업로드- 정식db insert-파일무브 완료
+
+        // //싱글 파일 일 때
+        // if ($temporaryFile) {
+        //     $from_path = storage_path('app/images/tmp/' . $request->imageFile . '/' . $temporaryFile->filename);
+        //     //디렉토리가 없으므로 만들기
+        //     mkdir(storage_path('app/public/images/post_images/'). $request->imageFile);
+        //     $to_path = storage_path('app/public/images/post_images/' . $request->imageFile. '/' . $temporaryFile->filename);
+
+        //     // tmp 디렉토리에 업로드된 파일 이동시켜주기
+        //     File::move($from_path, $to_path);
+
+        //     // db에서 delete // ( 싱글파일일때는 $temporaryFile->delete()가 됨)
+        //     $temporaryFile->delete();
+        // }
+
         return redirect('/blog')->with('message', 'Your post has been added!');
 
     }

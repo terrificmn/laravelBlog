@@ -28,9 +28,12 @@ class UploadController extends Controller
                 ]);
             }
             // 알다가도 모르겠다;; 원래는 싱글파일일 때는 dirName만 반환했는데 어레이형태로 반환하니간 그 값이 잘 넘어간다;;
-            $dirNameArray[] = $dirName;
+            // 그냥 dirName을 리턴해주면 알아서 파일이 여러개이면 array로 넘어가는 것 같다
+            //$dirNameArray = $dirName;
+            
             // 리턴값이 $request->imageFile 이 됨
-            return $dirNameArray;
+            //return $dirNameArray;
+            return $dirName;
 
         } else {
             
