@@ -12,7 +12,9 @@ class UploadController extends Controller
         if ($request->hasFile('imageFile')) {
             //$file = $request->file('imageFile'); //파일 하나일 때
             $files = $request->file('imageFile');
-            $dirName = uniqid() . '-' . now()->timestamp;
+            # uniqid()가 13자리를 만들어주는데 5번중에 2번은 리눅스에서 만들어지는 것과 php로 만든것이 다르게 만들어짐
+            # 그래서 8자리로 자름- 효과는 테스트 해봐야함;
+            $dirName = substr(uniqid(),0, 8) . '-' . now()->timestamp;
             // dirName으로 uniqid로 하나만 만들기 위해서 설정, temporary_files(table)에 하나만 넣어주고 리턴도 하나만 할려고함
             
             foreach ($files as $file) {
