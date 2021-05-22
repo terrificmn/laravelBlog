@@ -39,6 +39,6 @@ class Post extends Model
     }
 
     public function postimage() {
-        return $this->hasMany(\App\Models\Comment::class);
+        return $this->hasMany(\App\Models\Postimage::class);
     }
 }

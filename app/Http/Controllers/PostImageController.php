@@ -10,7 +10,7 @@ class PostImageController extends Controller
     //
     public function store($temporaryFile, $post_id) {
 
-        //dd($temporaryFile[0]->dirname);
+        //임시db에 저장된 첫번쨰 디렉토리로 통일
         $firstDir = $temporaryFile[0]->dirname;
         foreach($temporaryFile as $imageDirFile) {
             Postimage::create([

@@ -17,6 +17,13 @@
             {{ session()->get('message') }}
         </p>
     </div>
+<!-- 파일저장 실패시 -->
+@elseif (session()->has('error_msg'))
+    <div class="w-4/5 m-auto mt-10 pl-2">
+        <p class="w-2/6 mb-4 text-gray-50 bg-red-500 rounded-2xl py-4 pl-2">
+            {{ session()->get('error_msg') }}
+        </p>
+    </div>
 @endif
 
 <!-- login user auth check -->

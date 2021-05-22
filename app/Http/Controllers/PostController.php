@@ -180,17 +180,30 @@ class PostController extends Controller
         //$temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first();
 
         //temporaryFile db에 있는지 확인
-        $temporaryFile = TemporaryFile::whereIn('dirname', $request->imageFile)->get();
+        if (isset($request->imageFile)) {
+            $temporaryFile = TemporaryFile::whereIn('dirname', $request->imageFile)->get();
+        }         
         //$temporaryFile = TemporaryFile::where('dirname', $request->imageFile)->first(); //싱글파일
 
-        if ($temporaryFile) {
-            //한번만 만들기 (임시로 저장할 때는 사진 당 디렉토리 하나)
-            mkdir(storage_path('app/public/images/post_images/'). $request->imageFile[0]);
-            foreach($temporaryFile as $imageDirFile) {
-                $from_path = storage_path('app/images/tmp/' . $imageDirFile->dirname . '/' . $imageDirFile->filename);
+        if (isset($temporaryFile)) {
+            //한번만 만들기 (임시로 저장할 때는 사진 당 디렉토리 하나) //$request->imageFile은 유니크 아이디로 넘어옴
+            $storageToDir = storage_path('app/public/images/post_images/'.$request->imageFile[0]);
+            
+            if (!file_exists($storageToDir)) { 
+                #에러 처리 복사할 곳에 파일이 없으면 만들기
+                mkdir($storageToDir); 
+                
+            } else {
+                // 파일 저장 실패 시 방금 전에 입력되었던 데이터 지우기
+                $post->delete();
+                return redirect('/blog')->with('error_msg', 'Sorry~ 파일 저장하는데 실패하였습니다.');
+            }
 
-                //디렉토리가 없으므로 만들기 // array로 넘어온 것의 첫번째만 사용해서 디렉토리는 하나로 통일
-                $to_path = storage_path('app/public/images/post_images/' . $request->imageFile[0]. '/' . $imageDirFile->filename);
+            // 임시db에서 있는 데이터 만큼 파일 이동시켜주기
+            foreach($temporaryFile as $imageDirFile) {
+                $from_path = storage_path('app/images/tmp/' . $imageDirFile->dirname . '/' . $imageDirFile->filename); //템프에서는 각 디렉토리가 만들어져서 하나씩 다 가져와야함
+                // array로 넘어온 것의 첫번째만 사용해서 디렉토리는 하나로 통일
+                $to_path = $storageToDir. '/' . $imageDirFile->filename;
                 // tmp 디렉토리에 업로드된 파일 이동시켜주기
                 File::move($from_path, $to_path);
             }
@@ -248,6 +261,7 @@ class PostController extends Controller
 
         // posts 테이블 중 convertedMd 내용에서 태그들 수정
         $posts = Post::where('slug', $slug)->first();
+        
         $originMd = $posts->convertedMd;
         $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-blue-400 py-1 leading-normal\">", $originMd);
         $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-orange-400 py-1 leading-normal\">", $replacedMd);
@@ -256,6 +270,16 @@ class PostController extends Controller
         $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-700 text-left border-b border-gray-300\">", $replacedMd);
         $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500 hover:bg-gray-100\">", $replacedMd);
         $replacedMd = preg_replace("/<a href=/", "<a class=\"text-indigo-600 hover:underline\" href=", $replacedMd);
+        
+        // 이미지가 있으면 가져오기
+        $mdImgCount = 0;
+        foreach ($posts->postimage as $item) {
+            # storage안의 public에 파일이 있어야 함 : 정리필요 기본은 그냥 public디렉토리
+            $srcImgDirFilename =  asset('storage/images/post_images/'. $item->dirname.'/'.$item->filename);
+
+            $replacedMd = preg_replace("/<img src=$mdImgCount>/", "<img src=\"$srcImgDirFilename\" ", $replacedMd);
+            $mdImgCount++;
+        }
         
 
         # posts 테이블의 comment() 메소드로 코멘트 불러오기
