@@ -9,7 +9,7 @@
                 </h1>
                 
                 <a href="/blog" class="text-center bg-gray-50 text-gray-700 py-2 px-4 font-bold text-xl uppercase">
-                    Read more
+                    Read posts
                 </a>
             </div>
         </div>
@@ -22,11 +22,11 @@
         
         <div class="m-auto sm:m-auto text-left w-4/5 block">
             <h2 class="text-3xl font-extrabold text-gray-600">
-                Struggling to be a better web developer?
+                quickSwiftDev Blog 
             </h2>
 
             <p class="py-8 text-gray-500 text-s">
-                lorem, ipsum dolor sit ame conssectetur .
+                welcome
             </p>
 
             <p class="font-extrabold text-gray-600 text-s pb-9">lorem, ipsum dolor sit ame conssectetur . lorem, ipsum dolor sit ame conssectetur .</p>
@@ -48,10 +48,13 @@
             Backend Development
         </span>
         <span class="font-extrabold block text-4xl py-1">
-            digital Strategy
+            Machine Learning
         </span>
         <span class="font-extrabold block text-4xl py-1">
-            Project Management
+            Database Management
+        </span>
+        <span class="font-extrabold block text-4xl py-1">
+            Self Driving Development
         </span>
 
     </div>

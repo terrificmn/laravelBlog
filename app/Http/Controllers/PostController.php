@@ -273,10 +273,10 @@ class PostController extends Controller
         
         // 이미지가 있으면 가져오기
         $mdImgCount = 0;
-        foreach ($posts->postimage as $item) {
-            # storage안의 public에 파일이 있어야 함 : 정리필요 기본은 그냥 public디렉토리
+        foreach ($posts->postimage as $item) {  # 이미지 없으면 (0) 그래서 없으면 실행을 안함
+            # storage안의 public에 파일이 있어야 함 : 심볼릭링크함 
             $srcImgDirFilename =  asset('storage/images/post_images/'. $item->dirname.'/'.$item->filename);
-
+            # <img src=0> 이런식으로 mdfile에 되어 있는것을 변환해줌
             $replacedMd = preg_replace("/<img src=$mdImgCount>/", "<img src=\"$srcImgDirFilename\" ", $replacedMd);
             $mdImgCount++;
         }

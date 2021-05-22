@@ -53,14 +53,14 @@
         <div class="bg-gray-lighter pt-15">
             <label class="w-44 flex flex-col items-center px-2 py-3 bg-white-rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer">
                 <span class="mt-2 text-base leading-normal">
-                    이미지 파일
+                    인덱스 이미지파일
                 </span>
                 <input type="file" name="image" class="hidden">
         </div>
 
         <!-- 좀 더 연구가 필요함 : filepond 하는 중 -->
         <div class="bg-gray-lighter pt-10">
-            테스트 filepond 이미지
+            포스트 이미지 선택
             <!-- <input type="file" name="imageFile" id="imageFile"> -->
             <input type="file" name="imageFile[]" id="imageFile" multiple data-max-file-size="20MB"/>
         </div>
@@ -69,7 +69,7 @@
         <div class="bg-gray-lighter pt-10">
             <label class="w-44 flex flex-col items-center px-2 py-3 bg-white-rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer">
                 <span class="mt-2 text-base leading-normal">
-                    Select a file
+                    SELECT a md file
                 </span>
                 <input type="file" name="mdfile" class="hidden">
         </div>
