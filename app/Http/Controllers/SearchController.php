@@ -10,7 +10,10 @@ class SearchController extends Controller
     public function index(Request $request) {
         $search = $request->input('search');
 
-        $post = Post::where('title', 'like', '%'.$search.'%')->get();
-        dd($post[0]->title);
+        return view('search.index')->with('posts', Post::where('title', 'like', '%'.$search.'%')
+                                                        ->orderBy('updated_at', 'desc')
+                                                        ->get());
+
+
     }
 }
