@@ -56,86 +56,95 @@
 
 @endif
 
-@foreach ($posts as $post)
 
-    <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        <div>
-            <img src="{{ asset('images/' .$post->image_path) }}" alt="" width="700">
-        </div>
-        
-        <div class="py-5">
-            <h2 class="text-gray-700 font-bold text-5xl pb-4">
-                {{ $post->title }}
-            </h2>
+@if (count($posts) != 0) 
+    <?php $repeatCnt = 0;  // 컨트롤러에서 넘겨준 strongTitles를 처리하기 위해서 카운트 만듬 - 더 좋은 방법 찾으면 refactoring!?>
+    @foreach ($posts as $post)
 
-            <span class="text-gray-500"> By <span class="font-bold italic text-gray-800">
-                {{ $post->user->name }}
-                </span>, Created on {{ date('jS M Y', strtotime($post->updated_at)) }}
-            </span>
+        <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
+            <div>
+                <img src="{{ asset('images/' .$post->image_path) }}" alt="" width="700">
+            </div>
             
-            <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
-            <?php 
+            <div class="py-5">
+                <h2 class="text-gray-700 font-bold text-5xl pb-4">
+                    {!! nl2br($strongTitles[$repeatCnt]) !!}
+                </h2>
 
-            $dest_len = strlen($post->description);
-            if ($dest_len < 100) {
-                echo nl2br(e($post->description));
-
-            } else { #100자 이상이면 ...을 붙여준다
-                // $substring = substr_replace($tag->post->description, '...', 101);
-                #substring은 한글이 깨져서 mb_substr()로 대체
-                $substring = mb_substr($post->description, 0, 50, 'UTF-8');
-                echo $substring.' ...';
-            }
-            ?>
-            </p>
-
-            <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-                Keep Reading
-            </a>
-
-            {{-- 사용자 확인 --}}
-            @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
-                <span class="float-right">
-                    <a href="/blog/{{ $post->slug }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                        Edit 
-                    </a>
-                </span>
-
-                <span class="float-right">
-                    <form
-                        {{-- action="/blog/{{ $post->slug }}" --}}
-                        action="/blog/{{ $post->id }}"
-                        method="post">
-                        @csrf
-                        @method('DELETE')
-
-                        <button 
-                            class="text-red-500 pr-3" type="submit">
-                            Delete
-                        </button>
-                    </form>
+                <span class="text-gray-500"> By <span class="font-bold italic text-gray-800">
+                    {{ $post->user->name }}
+                    </span>, Created on {{ date('jS M Y', strtotime($post->updated_at)) }}
                 </span>
                 
-            @endif
-        </div>
+                <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
+                <?php 
 
-        <div class="m-auto pt-5">
-            <ul>
-                @forelse ($post->tags as $tag )
-                    <li class='inline italic text-gray-600 px-2 leading-normal'>
-                        <a href="/tag/{{ $tag['tag_name'] }}"> {{ '#'.$tag['tag_name'] }} </a>   
-                    </li>
-                @empty
-                    <li class='inline italic text-gray-600 px-1 py-3'>
-                        등록된 tag가 없습니다.
-                    </li>
-                @endforelse
-            </ul>
-        </div>
+                $dest_len = strlen($post->description);
+                if ($dest_len < 100) {
+                    echo nl2br(e($post->description));
 
-        
+                } else { #100자 이상이면 ...을 붙여준다
+                    // $substring = substr_replace($tag->post->description, '...', 101);
+                    #substring은 한글이 깨져서 mb_substr()로 대체
+                    $substring = mb_substr($post->description, 0, 50, 'UTF-8');
+                    echo $substring.' ...';
+                }
+                ?>
+                </p>
+
+                <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+                    Keep Reading
+                </a>
+
+                {{-- 사용자 확인 --}}
+                @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+                    <span class="float-right">
+                        <a href="/blog/{{ $post->slug }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+                            Edit 
+                        </a>
+                    </span>
+
+                    <span class="float-right">
+                        <form
+                            {{-- action="/blog/{{ $post->slug }}" --}}
+                            action="/blog/{{ $post->id }}"
+                            method="post">
+                            @csrf
+                            @method('DELETE')
+
+                            <button 
+                                class="text-red-500 pr-3" type="submit">
+                                Delete
+                            </button>
+                        </form>
+                    </span>
+                    
+                @endif
+            </div>
+
+            <div class="m-auto pt-5">
+                <ul>
+                    @forelse ($post->tags as $tag )
+                        <li class='inline italic text-gray-600 px-2 leading-normal'>
+                            <a href="/tag/{{ $tag['tag_name'] }}"> {{ '#'.$tag['tag_name'] }} </a>   
+                        </li>
+                    @empty
+                        <li class='inline italic text-gray-600 px-1 py-3'>
+                            등록된 tag가 없습니다.
+                        </li>
+                    @endforelse
+                </ul>
+            </div>
+
+            
+        </div>
+        <?php $repeatCnt++; ?>
+    @endforeach
+
+@else
+    <div class="sm:grid w-4/5 mx-auto py-15 border-b border-gray-200">
+        <h2 class="text-gray-600 font-bold text-xl text-center"> 검색 결과가 없습니다 </h2>
     </div>
-
-@endforeach
+@endif
 
 @endsection
