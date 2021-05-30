@@ -32,9 +32,11 @@ class PostController extends Controller
 
         #dd($request->skip);
         # skip변수 만들어서 offset 셋팅
-        $skip = $request->skip;
+        
+        $limit = 3;
+        $skip = $request->skip * $limit;
         # 쿼리 빌더의 skip() 이 예외 처리도 다 해준다 (문자일때, 0일때, 아무것도 안 넣었을 때 에러가 발생하지 않음)
-        return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->skip($skip)->take(5)->get());
+        return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->skip($skip)->take($limit)->get());
     }
 
     /**

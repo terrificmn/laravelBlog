@@ -138,4 +138,9 @@
 
 @endforeach
 
+    <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
+        <a href="/blog?skip=1"> next page </a>
+    </div>
+
+
 @endsection
