@@ -30,13 +30,17 @@ class PostController extends Controller
         //dd($post);
         #return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->get());
 
-        #dd($request->skip);
-        # skip변수 만들어서 offset 셋팅
-        
-        $limit = 3;
-        $skip = $request->skip * $limit;
+        $limit = 12; #보여줄 limit, take() 메소드사용
+        $page = $request->page;
+        $skip = $page * $limit; # offset을 셋팅 (계산)해준다
         # 쿼리 빌더의 skip() 이 예외 처리도 다 해준다 (문자일때, 0일때, 아무것도 안 넣었을 때 에러가 발생하지 않음)
-        return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->skip($skip)->take($limit)->get());
+        return view('blog.index')->with([
+                                        'posts'=> Post::orderBy('updated_at', 'DESC')->skip($skip)->take($limit)->get(),
+                                        'page'=>$page,
+                                        'take'=>$limit
+                                        ]);
+
+        # 버그 처리하기 (마지막에도 page수 넘겨받는거?)
     }
 
     /**

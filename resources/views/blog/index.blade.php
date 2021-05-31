@@ -139,7 +139,11 @@
 @endforeach
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        <a href="/blog?skip=1"> next page </a>
+        @if ($page != Null)
+            <a href="/blog?page={{intval($page)+1}}" class="text-gray-700 text-justify"> next page </a>
+        @else 
+            <a href="/blog?page=1"> next page </a>
+        @endif
     </div>
 
 
