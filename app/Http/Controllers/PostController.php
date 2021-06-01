@@ -283,16 +283,28 @@ class PostController extends Controller
         $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500 hover:bg-gray-100\">", $replacedMd);
         $replacedMd = preg_replace("/<a href=/", "<a class=\"text-indigo-600 hover:underline\" href=", $replacedMd);
         
-        // 이미지가 있으면 가져오기
-        $mdImgCount = 0;
-        foreach ($posts->postimage as $item) {  # 이미지 없으면 (0) 그래서 없으면 실행을 안함
-            # storage안의 public에 파일이 있어야 함 : 심볼릭링크함 
-            $srcImgDirFilename =  asset('storage/images/post_images/'. $item->dirname.'/'.$item->filename);
-            # <img src=0> 이런식으로 mdfile에 되어 있는것을 변환해줌
-            $replacedMd = preg_replace("/<img src=$mdImgCount>/", "<img src=\"$srcImgDirFilename\" ", $replacedMd);
-            $mdImgCount++;
-        }
         
+        # 쿼리 빌더로 left join에서 파일 순으로 정렬해서 받아오기, 업로드시 업로드가 빠른 순서대로 올라가짐- 그래서 파일순서가 뒤죽박죽임
+        # ->first() 만 해서 받아오려고 했으나 그러면 정말 slug에 해당하는 한개만 포스트만 가져오고, postimages테이블의 내용을 볼 수가 없음
+        # ->get()으로 받아오면 배열로 받아와서 기존 코드랑 호환이 안됨 -> 그래서 다시 쿼리 
+        $postsJoin = Post::leftJoin('postimages', 'posts.id', '=', 'postimages.post_id')
+            ->where('slug', $slug)
+            ->orderBy('filename', 'asc')
+            ->get();
+            
+        $mdImgCount = 0; //이미지 카운트
+
+        # 에러처리 postsJoin에 0번째에 filename이 없다면 반복문 실행 안하기
+        if ($postsJoin[0]->filename != null) {
+            // 기존 relation으로 불러오던 방식에서 바꿈 (postimage()부르는게 원하는 값 못가져옴, 쿼리빌더로 쿼리 변경)
+            foreach ($postsJoin as $post) {  # 이미지 없으면 (0) 그래서 없으면 실행을 안함
+                # storage안의 public에 파일이 있어야 함 : 심볼릭링크함 
+                $srcImgDirFilename =  asset('storage/images/post_images/'. $post->dirname.'/'.$post->filename);
+                # <img src=0> 이런식으로 mdfile에 되어 있는것을 변환해줌
+                $replacedMd = preg_replace("/<img src=$mdImgCount>/", "<img src=\"$srcImgDirFilename\" ", $replacedMd);
+                $mdImgCount++;
+            }
+        }
 
         # posts 테이블의 comment() 메소드로 코멘트 불러오기
         $commentCnt = count($posts->comment);
