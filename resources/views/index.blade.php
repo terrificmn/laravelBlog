@@ -22,14 +22,18 @@
         
         <div class="m-auto sm:m-auto text-left w-4/5 block">
             <h2 class="text-3xl font-extrabold text-gray-600">
-                quickSwiftDev Blog 
+                QuickSwiftDev Blog 
             </h2>
 
             <p class="py-8 text-gray-500 text-s">
-                welcome
+                안녕하세요~ QuickSwift의 블로그에 오신 것을 환영 합니다
             </p>
 
-            <p class="font-extrabold text-gray-600 text-s pb-9">lorem, ipsum dolor sit ame conssectetur . lorem, ipsum dolor sit ame conssectetur .</p>
+            <p class="font-extrabold text-gray-600 text-s pb-9 leading-snug">
+                주로 프로그래밍 공부한 내용 정리하고 트러블슈팅 한 것 포스팅하는 블로그 입니다. 
+                직접 개발하면서 하나씩 하나씩 추가해서 부족한 것이 많은 블로그이지만 
+                그래도 애정을 갖고 뚝딱뚝딱(?) 만들고 있는 블로그 입니다.
+            </p>
 
             <a href="/blog" class="uppercase bg-blue-800 text-gray-10 text-s font-extrabold py-3 px-8 rounded-3xl">
             Find Out more
