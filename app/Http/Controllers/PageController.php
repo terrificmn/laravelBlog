@@ -9,9 +9,7 @@ class PageController extends Controller
 {
     public function index() {
         return view('index')->with([
-            'posts'=> Post::orderBy('id')->first()
+            'posts'=> Post::orderBy('id', 'desc')->first()
         ]);
     }
-
-
 }
