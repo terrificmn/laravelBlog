@@ -23,8 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home')->with([
-                                    'posts'=> Post::orderBy('updated_at', 'DESC')->get(1)
-                                ]);
+        return view('home');
     }
 }
