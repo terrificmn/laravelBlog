@@ -60,7 +60,11 @@
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
         <div>
-            <img src="{{ asset('images/' .$post->image_path) }}" alt="" width="700">
+            @if ($post->image_path == "NONE")
+                <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
+            @else
+                <img src="{{ asset('images/' .$post->image_path) }}" alt="" width="700">
+            @endif
         </div>
         
         <div class="py-5">

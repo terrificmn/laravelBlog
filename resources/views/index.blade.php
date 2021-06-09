@@ -58,21 +58,21 @@
             Database Management
         </span>
         <span class="font-extrabold block text-4xl py-1">
-            Self Driving Development
+            Self Driving Car Development
         </span>
 
     </div>
 
     <div class="text-center py-15">
-        <span class="uppercase text-s text-gray-400">Blog
+        <span class="uppercase text-s text-gray-600">Blog
 
         </span>
         <h2 class="text-4xl font-bold py-10">
             Recent Posts
         </h2>
 
-        <p class="m-auto w-4/5 text-gray-500">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+        <p class="m-auto w-4/5 text-gray-400">
+            최근 포스트는 {{ date('jS M Y', strtotime($posts->updated_at)) }} 에 업데이트 되었습니다.
         </p>
     </div>
 
@@ -80,11 +80,11 @@
         <div class="flex bg-yellow-700 text-gray-100 pt-10">
             <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block">
                 <span class="uppercase text-xs">
-                    PHP
+                    {{$posts->title}}
                 </span>
                 
                 <h3 class="text-xl font-bold py-10">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lorem odio, fringilla eu pharetra a, tincidunt id velit. Praesent vel volutpat ex. Suspendisse nec neque eu nisl viverra condimentum volutpat eget massa.
+                    {{$posts->description}}
                 </h3>
 
                 <a href="" class="uppercase bg-transparent border-2 border-gray-100 text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
@@ -93,7 +93,11 @@
             </div>
         </div>
         <div>
-            <img src="https://cdn.pixabay.com/photo/2015/09/05/22/33/office-925806_960_720.jpg" alt="" width="700">
+            @if ($posts->image_path == "NONE")
+                <img src="https://cdn.pixabay.com/photo/2015/09/05/22/33/office-925806_960_720.jpg" alt="" width="700">
+            @else
+                <img src="{{ asset('images/' .$posts->image_path) }}" alt="" width="700">
+            @endif
         </div>
 </div>
 
