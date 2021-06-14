@@ -103,7 +103,7 @@ class PostController extends Controller
 
         #dd($tagArray, $string, $i, $stringLen, $count);
 
-        // markdown parse 하기 
+        // markdown parse 하기 //먼저 mdfile 업로드 확인 - 있으면 진행
         if (isset($_FILES['mdfile'])) {
             
             $fileError = $_FILES['mdfile']['error'];
@@ -368,10 +368,25 @@ class PostController extends Controller
         // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
         $slug = $this->cleanUrl($request->input('title'));
         
+        // 새로 업데이트를 위해 업로드한 mdfile 확인
+        if (isset($_FILES['mdfile']) and $_FILES['mdfile']['error'] == 0) {
+            // 뭔가 $_FILES에 error가 있어서 있기는 있는 거래서 여기로 들어오게 됨 그래서 ['error'] 추가
+            // 에러가 없어야지 실행
+
+            // 현재 jun15 2021 메소드 만듬 - store메소드에 있는 기능 복사해서 만들고 아직
+            // store 메소드에는 진행안함 - 테스트 후 store메소드에 있는 것도 함수호출하기로 바꾸고 내용은 지우기
+
+            // 아규먼트 넘겨줄려고 했으나, $_FILES가 슈퍼글로벌이여서 그냥 안넘김
+            $updatedMdfile = $this->processingMdfile(); 
+
+        } else { // 파일업로드 없으면 
+            $updatedMdfile = $request->input('textMd');
+        }
+
         Post::where('slug', $exSlug)->update( [ 
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'convertedMd' => $request->input('textMd'),
+            'convertedMd' => $updatedMdfile,
             'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
             'user_id' => auth()->user()->id
         ]);
@@ -405,6 +420,52 @@ class PostController extends Controller
         $string = preg_replace("/[~`{}.'\"\!\@\#\$\%\^\&\*\(\)\_\-\=\/\?\<\>\,\[\]\:\;\|\\\]/", "", $string); //빈칸으로 바꿈
         $string = preg_replace("/[\/_|+ -]+/", "-", $string);
         return $string;
+    }
+
+    public function processingMdfile () {
+        if (isset($_FILES['mdfile'])) {
+            $fileError = $_FILES['mdfile']['error'];
+    
+            if ($fileError === 0) {
+                
+                $fileName = $_FILES['mdfile']['name'];
+                $fileTmpName = $_FILES['mdfile']['tmp_name'];
+                $fileSize = $_FILES['mdfile']['size'];
+                
+                $fileType = $_FILES['mdfile']['type'];
+                
+                $fileExt = explode('.', $fileName);
+                $fileActualExt = strtolower(end($fileExt));
+                $allowed = array('md');
+            
+                // 타입이랑 확장자가 md일때만 통과
+                if($fileType == 'text/markdown' && $fileActualExt == 'md')  {
+                    // Parse 객체 생성
+                    $Parse = new \App\Http\Controllers\ParseController;
+                    //echo $Parse->text('Hello _Parsedown_!');
+                    
+                    $mdText = "";  // 합치기 위해서 md파일의 내용 저장
+                    //file_get_contents($fileTmpName.".md"); //파일 업로드시에는 읽지만 tmp파일은 못읽음
+                    $file = fopen($fileTmpName, "r");
+                    while(!feof($file)) {
+                        //echo fgets($file). "<br>";
+                        $mdText .= fgets($file);
+                    }
+                    fclose($file);
+
+                    $covertedTxt_Md = $Parse->text($mdText);
+                    unset($_FILES['mdfile']); //없애기
+                    return $covertedTxt_Md;
+
+                } else {
+
+                    return redirect('/blog/create')->with('message', 'md파일 형식이 아닙니다!');
+                }
+            } else {  // md file업로드가 없는 경우
+                $covertedTxt_Md = 'NONE';  //추후 기본이미지 주소로 셋팅하거나 다른 방법 생각해보기 19mar 2021
+            }   
+        } 
+
     }
 
     
