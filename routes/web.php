@@ -32,6 +32,8 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->nam
 Route::post('/upload', [\App\Http\Controllers\UploadController::class, 'store']);
 
 Route::get('/search', 'App\Http\Controllers\SearchController@index');
+
+Route::get('/devnote', 'App\Http\Controllers\DevnoteController@index');
 // Auth::routes();
 
 // Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
