@@ -34,6 +34,8 @@ Route::post('/upload', [\App\Http\Controllers\UploadController::class, 'store'])
 Route::get('/search', 'App\Http\Controllers\SearchController@index');
 
 Route::get('/devnote', 'App\Http\Controllers\DevnoteController@index');
+Route::get('/devnote/create', 'App\Http\Controllers\DevnoteController@create');
+Route::post('/devnote/imgupload', 'App\Http\Controllers\DevnoteController@imgUpload')->name('devnote.imgupload'); //name()메소드로 만들어줘야함 
 // Auth::routes();
 
 // Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');

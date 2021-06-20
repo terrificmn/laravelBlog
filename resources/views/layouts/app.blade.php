@@ -80,6 +80,9 @@
 
     <!-- add before </body> -->
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
+    
     @yield('scripts')
 
 </body>
