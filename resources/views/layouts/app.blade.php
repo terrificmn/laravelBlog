@@ -44,7 +44,7 @@
                 :class="{ 'flex' : mobileMenuOpen , 'hidden' : !mobileMenuOpen}"  @click.away="mobileMenuOpen = false">
                 
                 <a class="no-underline hover:underline py-1" href="/">HOME</a>
-                <a class="no-underline hover:underline py-1" href="/#">AboutMe</a>
+                <!-- <a class="no-underline hover:underline py-1" href="/#">AboutMe</a> -->
                 <a class="no-underline hover:underline py-1" href="/devnote">Dev-Notes</a>
                 <a class="no-underline hover:underline py-1" href="/blog">Posts</a>
                 @guest
