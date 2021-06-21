@@ -38,6 +38,10 @@ class DevnoteController extends Controller
             $url = asset(public_path('images') .'/'. $fileName);
         }
 
-        return response()->json(['url' => $url]);
+        $imgpath = request()->file('name')->store('uploads', 'public');
+        
+        // { location : '/uploaded/image/path/image.png' } TineMCE는 json형태로 리턴을 해줘야함 
+        return response()->json_encode(['location' => $imgpath]);
+        
     }
 }
