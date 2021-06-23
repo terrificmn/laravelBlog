@@ -81,14 +81,9 @@
     <!-- add before </body> -->
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 
-    <!-- ckeditor5는 일단 사용 포기 -->
-    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> -->
+    <!-- ckeditor5는 -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
     
-    <!-- tinyMCE 도전 중 -->
-    <script src="https://cdn.tiny.cloud/1/vwtuss6c0c0e0sihi2vdlbeptnzswqlu4ddtnihkys2y5bsr/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-            
-
-
     @yield('scripts')
 
 </body>
