@@ -211,7 +211,7 @@ class PostController extends Controller
             
             if (!file_exists($storageToDir)) { 
                 #에러 처리 복사할 곳에 파일이 없으면 만들기
-                mkdir($storageToDir); 
+                mkdir($storageToDir, 0755, true); // 최초 아예 post_images가 없을 때에 recursive 옵션을 true로 줘야함
                 
             } else {
                 // 파일 저장 실패 시 방금 전에 입력되었던 데이터 지우기
