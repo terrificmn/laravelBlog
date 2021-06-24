@@ -75,7 +75,9 @@ class PostController extends Controller
             //'image' => 'required|mimes:jpg,png,jpeg|max:5048',
         ]);
         
-        #dd($request->tag); 
+        //태그 함수로 만드는 중
+        //validateTag($request->tag;);
+
         // tag 입력있으면 만들어 주기
         $string = $request->tag;
         $stringLen = strlen($request->tag); 
@@ -467,6 +469,4 @@ class PostController extends Controller
         } 
 
     }
-
-    
 }

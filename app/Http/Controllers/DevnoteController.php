@@ -75,7 +75,8 @@ class DevnoteController extends Controller
         }
         
         // CKEditor5는 json으로 url을 넘겨줘야한다 // 나머지 변수는 확인용으로 넘겨서 확인가능하다
-        return response()->json(['url' => $url, 'dirname' => $dirName, 'from_path' => $from_path, 'to_path' => $to_path]);
+        //return response()->json(['url' => $url, 'dirname' => $dirName, 'from_path' => $from_path, 'to_path' => $to_path]);
+        return response()->json(['url' => $url]);
     }
 
 
@@ -86,6 +87,7 @@ class DevnoteController extends Controller
         // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
         $slug = $post->cleanUrl($request->input('title'));
 
+        // 이미지 업로드가 있으면 저장해주기
         if (!$request->image) {
             $newImageName = 'NONE';
         } else {
@@ -103,10 +105,6 @@ class DevnoteController extends Controller
             $request->image->move(public_path('images'), $newImageName);
         }
 
-        // echo $newImageName ."<br>";
-        // echo $slug;
-        // exit();
-
         $devnote = Devnote::create([
             'slug' => $slug,
             'title' => $request->input('title'),
@@ -115,9 +113,16 @@ class DevnoteController extends Controller
             'user_id' => auth()->user()->id
         ]);
         
-        // // Tag 객체 생성
-        // $Tag = new \App\Http\Controllers\TagController; 
-        // $Tag->store($tagArray);
+        // Tag 객체 생성 //controller는 TagController만 사용: 대신 모델은 Tag / Devtag 2개임 
+        // Jun 24 2021 추가
+        $Tag = new \App\Http\Controllers\TagController; 
+        $tagArray = $Tag->validateTag($request->tag);
+
+        // var_dump($tagArray);
+        // exit();
+
+        $Tag->store($tagArray, "Devnote"); //2번째 파라미터로 tableName 넘겨줌
+
         return redirect('/devnote')->with('message', 'Your post has been added!');
         
     }

@@ -14,7 +14,7 @@ class CreateDevnotesTable extends Migration
     public function up()
     {
         Schema::create('devnotes', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('slug');
             $table->string('title');
             $table->longText('description');

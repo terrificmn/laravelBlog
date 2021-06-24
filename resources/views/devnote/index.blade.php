@@ -77,28 +77,24 @@
                 </span>, Created on {{ date('jS M Y', strtotime($note->updated_at)) }}
             </span>
             
-            <div class="py-8">
+            
                 <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
                 <?php 
 
                 $dest_len = strlen($note->description);
                 if ($dest_len < 100) {
-                    echo nl2br(e($note->description));
+                    $substring = strip_tags($note->description);
+                    echo $substring;
+                    //echo $note->description;
 
                 } else { #100자 이상이면 ...을 붙여준다
-                    // $substring = substr_replace($tag->post->description, '...', 101);
                     #substring은 한글이 깨져서 mb_substr()로 대체
                     $substring = mb_substr($note->description, 0, 50, 'UTF-8');
-                    //$substring.' ...';
-                    echo $substring;
-
-                    // 테스트용 지워야 함!!! 사진이랑 잘 보이는 것 확인함
-                    echo $note->description;
+                    echo strip_tags($substring ).' ...';
+                    //echo $substring;
                 }
                 ?>
                 </p>
-            </div>
-            
             
             <a href="/devnote/{{ $note->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
                 Keep Reading
