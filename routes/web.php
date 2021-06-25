@@ -22,6 +22,7 @@ Route::resource('/blog', 'App\Http\Controllers\PostController');
 
 Route::get('/tag/{tag_name}', 'App\Http\Controllers\TagController@index');
 
+
 Route::post('/comment/create', 'App\Http\Controllers\CommentController@store');
 Route::get('/comment/{comment_id}/edit', 'App\Http\Controllers\CommentController@update');
 
@@ -37,6 +38,12 @@ Route::get('/devnote', 'App\Http\Controllers\DevnoteController@index');
 Route::get('/devnote/create', 'App\Http\Controllers\DevnoteController@create');
 Route::post('/devnote/imgupload', 'App\Http\Controllers\DevnoteController@imgupload')->name('devnote.imgupload');
 Route::post('/devnote', 'App\Http\Controllers\DevnoteController@store');
+Route::get('/devnote/{slug}/edit', 'App\Http\Controllers\DevnoteController@edit');
+Route::patch('/devnote/{slug}', 'App\Http\Controllers\DevnoteController@update'); //update (patch 메소드)로 함
+Route::delete('/devnote/{id}', 'App\Http\Controllers\DevnoteController@destroy'); //delete (delete 메소드)
+Route::get('/devnote/{slug}', 'App\Http\Controllers\DevnoteController@show');
+
+
 // Auth::routes();
 
 // Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -125,12 +125,21 @@
                 
             @endif
         </div>
-
-        <!-- tag 구현 아직 안함
-        post 컨트롤럴에서 tag부분 통째로 가져오기, 필요시-->
         
+        <div class="m-auto pt-5">
+            <ul>
+                @forelse ($note->tags as $tag )
+                    <li class='inline italic text-gray-600 px-2 leading-normal'>
+                        <a href="/tag/{{ $tag['tag_name'] }}?whichTag=Devtag"> {{ '#'.$tag['tag_name'] }} </a>   
+                    </li>
+                @empty
+                    <li class='inline italic text-gray-600 px-1 py-3'>
+                        등록된 tag가 없습니다.
+                    </li>
+                @endforelse
+            </ul>
+        </div>
 
-        
     </div>
 
 @endforeach

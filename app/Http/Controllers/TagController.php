@@ -10,10 +10,31 @@ class TagController extends Controller
 {
 
     public function index($tag_id) {
-        # /tag/{tag_name}
-        return view('tag.index')->with('tags', Tag::where('tag_name', $tag_id)
-                                                            ->orderBy('updated_at', 'desc')
-                                                            ->get());
+        // get방식으로 넘겨받기
+        if (isset($_GET['whichTag'])) {
+            // get방식으로 Devtag가 넘어오면 Devtag 모델에서 가져오기
+            if ($_GET['whichTag'] == 'Devtag') {  //Devtag 일 경우에만 내용 사용하기
+                //$whichTag = $_GET['whichTag'];
+                $Tag = Devtag::where('tag_name', $tag_id)
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
+
+                // 아예 리턴해버리기 //페이지를 나눠버림~ Tag, Devtag 모델이 각각 Post와 Devnote에 속해있기 때문에
+                // TagController를 같이 쓰는 것 까지는 좋으나 index 페이지에서 복잡해짐
+                return view('tag.devtag')->with('tags', $Tag);
+
+            } else {
+                // 이상한 문자열을 임의로 넘겼을 경우 // redirect할려고 했으나 web.php 라우트 설정해야함
+                return redirect('/devnote')->with('error_msg', 'It\' not allowed!');
+                
+            }
+
+        } else { // Get방식이 잘못 들어오거나 아예 없을 경우는 기본 Tag로 간주
+            $Tag = Tag::where('tag_name', $tag_id)
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
+            return view('tag.index')->with('tags', $Tag);
+        } 
         
     }
 

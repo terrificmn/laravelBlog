@@ -126,4 +126,55 @@ class DevnoteController extends Controller
         return redirect('/devnote')->with('message', 'Your post has been added!');
         
     }
+
+    public function edit($slug) {
+
+        return view('devnote.edit')->with('devnotes', Devnote::where('slug', $slug)->first());
+    }
+
+
+    public function update(Request $request, $slug) {
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            // 'image' => 'required|mimes:jpg,png,jpeg|max:5048'
+        ]);
+        
+        // 에디터 페이지에서 넘어온 슬러그로 검색을 해주기 위해서 exSlug 변수 만듬
+        // update query를 만들기 위해서 일단 예전 슬러그를 기억해준다
+        $exSlug = $slug;
+        
+        //PostController의 cleanUrl()메소드 사용하기 위해서 생성
+        $post = new \App\Http\Controllers\PostController;
+        // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
+        // 타이틀이 바뀌면 새로 슬러그 만들기
+        $slug = $post->cleanUrl($request->input('title'));
+        
+        Devnote::where('slug', $exSlug)->update( [ 
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
+            'user_id' => auth()->user()->id
+        ]);
+
+        return redirect('/devnote')->with('message', 'Your post has been updated!');
+
+    }
+
+
+    public function destroy($id) {
+        $devnote = Devnote::where('id', $id);
+        $devnote->delete();
+
+        return redirect('/devnote')->with('message', 'Your devnote-post has been deleted!');
+    }
+
+    
+    public function show($slug) {
+        
+
+        return view('devnote.show')->with(['devnote'=> Devnote::where('slug', $slug)->first(),
+                                        ]);
+    }
 }
