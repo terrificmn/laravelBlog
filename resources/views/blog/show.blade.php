@@ -46,13 +46,14 @@
     {{-- 사용자 확인 --}}
     <div>
         {{-- {{ dd($post->comment[0]->user_id)}} --}}
-    <h1 class="mt-20"> 테스트 사용자 확인 및 댓글 테스트</h1>
+    <h1 class="mt-20"> 댓글</h1>
     @if (isset(Auth::user()->id) && isset($post->comment[0]->user_id) && Auth::user()->id == $post->comment[0]->user_id)
         
         <span class="float-right">
-            <a href="/comment/{{ $post->comment[0]->id }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+        {{-- 수정하기 주석처리 아직 미완성 26Jun 2021 --}}
+            <!-- <a href="/comment/{{ $post->comment[0]->id }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2"> -->
                 Comment Edit 
-            </a>
+            <!-- </a> -->
         </span>
 
         <span class="float-right">
@@ -78,7 +79,7 @@
             <div>
                 {{-- {{dd($commentTxt)}} --}}
                 @forelse($commentTxt as $txt)
-                    <h3> {{$txt}} </h3>
+                    <p class="text-xl text-gray-700 pt-2 pb-2 leading-8 font-light"> {{$txt}} </p>
                 @empty
                     <h3>댓글이 없습니다. </h3>
                 @endforelse
@@ -96,9 +97,9 @@
                     </div>
                 </div>
                 
-                <div>
+                <div class="pt-2">
                     <input type="hidden" name="post_id" value="{{$post->id}}">
-                        <button type="submit">전송</button>
+                    <button type="submit" class="bg-blue-700 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-2xl">댓글전송</button>
                 </div>
             </form>
     </div>
