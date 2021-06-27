@@ -147,29 +147,30 @@
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
         @if ($page != Null)
             @if ($maxpage == $page)
-                <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
+                <a href="/devnote?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
                 previous page 
                 </a>
 
             @elseif ($page >= 1)
-                <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
+                <a href="/devnote?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
                 previous page 
                 </a>
 
-                <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
+                <a href="/devnote?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                 next page </a>
                 
             @elseif ($page == 0)
-                <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
+                
+                <a href="/devnote?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                 next page </a>
             @endif
 
-        @else 
-            <a href="/blog?page=1" class="uppercase text-blue-500 text-justify"> 
+        @else
+            <a href="/devnote?page=1" class="uppercase text-blue-500 text-justify"> 
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
             next page </a>
         @endif

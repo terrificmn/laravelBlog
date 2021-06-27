@@ -99,7 +99,9 @@
                 
                 <div class="pt-2">
                     <input type="hidden" name="post_id" value="{{$post->id}}">
-                    <button type="submit" class="bg-blue-700 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-2xl">댓글전송</button>
+                    @if (!isset(Auth::user()->id))
+                        <button type="submit" class="bg-blue-700 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-2xl">댓글전송</button>
+                    @endif
                 </div>
             </form>
     </div>

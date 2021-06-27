@@ -14,6 +14,7 @@ class DevnoteController extends Controller
         $totalCnt = Devnote::count();  # 포스팅 카운트
 
         $limit = 12; #보여줄 limit 정하기, 이후 take() 메소드에 사용
+
         $maxPage = $totalCnt / $limit; #전체 페이지에서 리밋을 나누면 몇 페이지가 가능한지 나옴
         $page = $request->page;
 
