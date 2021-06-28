@@ -31,18 +31,30 @@ class PostController extends Controller
         #return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->get());
 
         $totalCnt = Post::count();  # 포스팅 카운트
-
+        
         $limit = 12; #보여줄 limit 정하기, 이후 take() 메소드에 사용
         $maxPage = $totalCnt / $limit; #전체 페이지에서 리밋을 나누면 몇 페이지가 가능한지 나옴
         $page = $request->page;
+        // $page가 들어온게 없으면 그대로 Null이 됨 // Null일 때는 blade파일에서 처리함
+        
+        if (isset($page)) {
+            #page가 더 큰 수가 넘어오면 맥스페이지 값 자체를 (소수점 버림) 값을 저장시킴
+            if ($page >= $maxPage) {
+                $page = floor($maxPage); #다음페이지 보여줄게 없는데도 계속 다음페이지 요청 방지
+            }
 
-        #page가 더 큰 수가 넘어오면 맥스페이지 값 자체를 (소수점 버림) 값을 저장시킴
-        if ($page > $maxPage) {
-            $page = floor($maxPage); #다음페이지 보여줄게 없는데도 계속 다음페이지 요청 방지
+            // limit으로 총 데이터가 딱 떨어지는 경우에는 마지막 페이지까지 보여주면 더 이상 보여줄 내용이 없으므로
+            // 예를 들어 총 페이지가 2에 10개 데이터를 5개 (limit)으로 보여준다고 하면
+            //첫번째(0)에서 5개 보여주고 page1에서 5개 보여주고 끝임
+            // 그래서 max를 1개 줄여줌
+            if(is_int($maxPage)) {
+                $maxPage--; 
+            }
         }
 
         $skip = $page * $limit; # offset을 셋팅 (계산)해준다
-        # 쿼리 빌더의 skip() 이 예외 처리도 다 해준다 (문자일때, 0일때, 아무것도 안 넣었을 때 에러가 발생하지 않음)
+        # 쿼리 빌더의 skip() 이 예외 처리도 다 해준다 (문자일때, 0일때, 아무것도 안 넣었을 때 에러가 발생하지 않음)\
+
         return view('blog.index')->with([
                                         'posts'=> Post::orderBy('updated_at', 'DESC')->skip($skip)->take($limit)->get(),
                                         'page'=>$page,

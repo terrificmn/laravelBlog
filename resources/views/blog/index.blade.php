@@ -143,13 +143,13 @@
 @endforeach
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        @if ($page != Null)
-            @if ($maxpage == $page)
+        @if (isset($page))
+            @if ($page == $maxpage)
                 <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
                 previous page 
                 </a>
-
+            
             @elseif ($page >= 1)
                 <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
@@ -159,17 +159,21 @@
                 <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                 next page </a>
-                
+
             @elseif ($page == 0)
                 <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
                 next page </a>
             @endif
 
-        @else 
-            <a href="/blog?page=1" class="uppercase text-blue-500 text-justify"> 
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-            next page </a>
+        @else
+            {{-- $page가 Null 인 경우에 (url로 요청이 들어오지 않았을 때) 가능한 다음 페이지가 생기는 경우, 즉, limit을 갓 넘겼을 때 --}}
+            @if ($maxpage >= 1)  
+                <a href="/blog?page=1" class="uppercase text-blue-500 text-justify"> 
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                {{-- 이 부분 수정해야함 maxpage가 1일 경우에 생기는 변수 생각하기 --}}
+                next page </a>
+            @endif
         @endif
     </div>
 
