@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Devnote;
 #use Cviebrock\EloquentSluggable\Services\SlugService; #사용안함: 라이브러리설치안함
 use Illuminate\Support\Str;
 use App\Models\Tag;
@@ -26,42 +27,22 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        //$post = Post::all();
-        //dd($post);
-        #return view('blog.index')->with('posts', Post::orderBy('updated_at', 'DESC')->get());
-
-        $totalCnt = Post::count();  # 포스팅 카운트
-        
-        $limit = 12; #보여줄 limit 정하기, 이후 take() 메소드에 사용
-        $maxPage = $totalCnt / $limit; #전체 페이지에서 리밋을 나누면 몇 페이지가 가능한지 나옴
-        $page = $request->page;
-        // $page가 들어온게 없으면 그대로 Null이 됨 // Null일 때는 blade파일에서 처리함
-        
-        if (isset($page)) {
-            #page가 더 큰 수가 넘어오면 맥스페이지 값 자체를 (소수점 버림) 값을 저장시킴
-            if ($page >= $maxPage) {
-                $page = floor($maxPage); #다음페이지 보여줄게 없는데도 계속 다음페이지 요청 방지
-            }
-
-            // limit으로 총 데이터가 딱 떨어지는 경우에는 마지막 페이지까지 보여주면 더 이상 보여줄 내용이 없으므로
-            // 예를 들어 총 페이지가 2에 10개 데이터를 5개 (limit)으로 보여준다고 하면
-            //첫번째(0)에서 5개 보여주고 page1에서 5개 보여주고 끝임
-            // 그래서 max를 1개 줄여줌
-            if(is_int($maxPage)) {
-                $maxPage--; 
-            }
+        //url로 넘어오는 page가 있는지 확인
+        if(!isset($request->page)) {
+            $page = 0;
+        } else {
+            $page = $request->page;
         }
-
-        $skip = $page * $limit; # offset을 셋팅 (계산)해준다
-        # 쿼리 빌더의 skip() 이 예외 처리도 다 해준다 (문자일때, 0일때, 아무것도 안 넣었을 때 에러가 발생하지 않음)\
+        $result = $this->pagination($model='Post', $page);
 
         return view('blog.index')->with([
-                                        'posts'=> Post::orderBy('updated_at', 'DESC')->skip($skip)->take($limit)->get(),
-                                        'page'=>$page,
-                                        'take'=>$limit, 
-                                        'maxpage'=>floor($maxPage)
+                                        'posts'=> Post::orderBy('updated_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
+                                        'page'=>$result['page'],
+                                        'maxpage'=>$result['maxPage'],
+                                        'STATUS_PAGE'=>$result['STATUS_PAGE']
                                         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -87,80 +68,18 @@ class PostController extends Controller
             //'image' => 'required|mimes:jpg,png,jpeg|max:5048',
         ]);
         
-        //태그 함수로 만드는 중
-        //validateTag($request->tag;);
+        // TagController의 validateTag를 사용 리턴은 태그를 배열로 리턴해준다
+        $Tag = new \App\Http\Controllers\TagController; 
+        $tagArray = $Tag->validateTag($request->tag);
 
-        // tag 입력있으면 만들어 주기
-        $string = $request->tag;
-        $stringLen = strlen($request->tag); 
-        $count = 0;
-        $temp = '';
-        $tagArray = [];
-        for($i=0; $i < $stringLen; $i++) {
-            
-            if ($string[$i] != "#" ) { #샵이 아니면 템프에 문자열 넣어주기
-                $temp .= $string[$i];
-            }  else { # 샵이면 아무것도 안하면 될 듯
-                if ($count == 0) {
-                    $count++; #맨 처음에는 아무것도 안함
-                } else { 
-                    $tagArray[$count] =  trim($temp);  #  빈칸 한칸 삽입
-                    $temp = ''; #temp 초기화
-                    $count++; #tagArray 카운트를 높여서 배열에 각각 들어가게 만듬
-                }
-            } 
-
-            if ($i == $stringLen-1 ) {  #마지막에 #이 안나오므로 넣어주기
-                $tagArray[$count] = trim($temp);
-            }
+        // MD파일로 업로드가 있으면 md파일 내용 저장하기
+        $covertedTxt_Md = $this->processingMdfile();
+        
+        //md파일 형식이 아닐 경우 false 리턴받음
+        if (!$covertedTxt_Md) { 
+            return redirect('/blog/create')->with('message', 'md파일 형식이 아닙니다!');
         }
-
-        #dd($tagArray, $string, $i, $stringLen, $count);
-
-        // markdown parse 하기 //먼저 mdfile 업로드 확인 - 있으면 진행
-        if (isset($_FILES['mdfile'])) {
-            
-            $fileError = $_FILES['mdfile']['error'];
-    
-            if ($fileError === 0) {
-                
-                $fileName = $_FILES['mdfile']['name'];
-                $fileTmpName = $_FILES['mdfile']['tmp_name'];
-                $fileSize = $_FILES['mdfile']['size'];
-                
-                $fileType = $_FILES['mdfile']['type'];
-                
-                $fileExt = explode('.', $fileName);
-                $fileActualExt = strtolower(end($fileExt));
-                $allowed = array('md');
-            
-                // 타입이랑 확장자가 md일때만 통과
-                if($fileType == 'text/markdown' && $fileActualExt == 'md')  {
-                    // Parse 객체 생성
-                    $Parse = new \App\Http\Controllers\ParseController;
-                    //echo $Parse->text('Hello _Parsedown_!');
-                    
-                    $mdText = "";  // 합치기 위해서 md파일의 내용 저장
-                    //file_get_contents($fileTmpName.".md"); //파일 업로드시에는 읽지만 tmp파일은 못읽음
-                    $file = fopen($fileTmpName, "r");
-                    while(!feof($file)) {
-                        //echo fgets($file). "<br>";
-                        $mdText .= fgets($file);
-                    }
-                    fclose($file);
-
-                    $covertedTxt_Md = $Parse->text($mdText);
-                    
-                } else {
-
-                    return redirect('/blog/create')->with('message', 'md파일 형식이 아닙니다!');
-                }
-            } else {  // md file업로드가 없는 경우
-                $covertedTxt_Md = 'NONE';  //추후 기본이미지 주소로 셋팅하거나 다른 방법 생각해보기 19mar 2021
-            }   
-        } 
-
-
+        
         // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
         $slug = $this->cleanUrl($request->input('title'));
 
@@ -387,9 +306,6 @@ class PostController extends Controller
             // 뭔가 $_FILES에 error가 있어서 있기는 있는 거래서 여기로 들어오게 됨 그래서 ['error'] 추가
             // 에러가 없어야지 실행
 
-            // 현재 jun15 2021 메소드 만듬 - store메소드에 있는 기능 복사해서 만들고 아직
-            // store 메소드에는 진행안함 - 테스트 후 store메소드에 있는 것도 함수호출하기로 바꾸고 내용은 지우기
-
             // 아규먼트 넘겨줄려고 했으나, $_FILES가 슈퍼글로벌이여서 그냥 안넘김
             $updatedMdfile = $this->processingMdfile(); 
 
@@ -436,6 +352,8 @@ class PostController extends Controller
         return $string;
     }
 
+
+    // 슈퍼글로벌 변수를 사용해서 따로 넘겨받는 거 없음
     public function processingMdfile () {
         if (isset($_FILES['mdfile'])) {
             $fileError = $_FILES['mdfile']['error'];
@@ -469,11 +387,13 @@ class PostController extends Controller
 
                     $covertedTxt_Md = $Parse->text($mdText);
                     unset($_FILES['mdfile']); //없애기
+
                     return $covertedTxt_Md;
 
                 } else {
-
-                    return redirect('/blog/create')->with('message', 'md파일 형식이 아닙니다!');
+                    return false;
+                    // 함수로 만들면서 return 리다이렉트가 무의미해짐
+                    //return redirect('/blog/create')->with('message', 'md파일 형식이 아닙니다!');
                 }
             } else {  // md file업로드가 없는 경우
                 $covertedTxt_Md = 'NONE';  //추후 기본이미지 주소로 셋팅하거나 다른 방법 생각해보기 19mar 2021
@@ -481,4 +401,54 @@ class PostController extends Controller
         } 
 
     }
+
+
+    public function pagination($model, $page) {
+        //어떤 모델 사용할 지 결정 ($model)
+        if ($model == "Post") {
+            $totalCnt = Post::count();  # 포스팅 카운트
+        } else { // Devnote 일 경우 (현재 2가지 경우 밖에 없음 - Jun30 2021)
+            $totalCnt = Devnote::count();  # 포스팅 카운트
+        }
+        
+        $limit = 12; #보여줄 limit 정하기, 이후 take() 메소드에 사용
+        $maxPage = $totalCnt / $limit; #전체 페이지에서 리밋을 나누면 몇 페이지가 가능한지 나옴
+        
+        $skip = $page * $limit; # offset을 셋팅 (계산)해준다
+        # 쿼리 빌더의 skip() 이 예외 처리도 다 해준다 (문자일때, 0일때, 아무것도 안 넣었을 때 에러가 발생하지 않음)\
+        
+        $availablePosts = $totalCnt - $skip;
+        
+        // 너무 큰 수 입력 방지: url로 쓸때없이 큰 수가 넘어온 경우에 처리 아래쪽에서 리턴으로 처리할려고 했으나, 
+        // 리턴을 해줘버리면 배열로 꼭 리턴을 하게 함수가 만들어져있어서 게시물을 못읽어오는 심각한 오류발생
+        if($maxPage <= $page) {
+            $page = $maxPage - 1;
+            $STATUS_PAGE = -1; //강제 부여
+        }
+
+        if ($maxPage > $page) {
+            if ($availablePosts <= $limit) { // 잔여게시물이 limit보다 작으면 더 이상 보여줄게 없다
+                $STATUS_PAGE = -1; //pre
+            } elseif ($availablePosts == $totalCnt) {
+                $STATUS_PAGE = 1; //"next";
+            } else {
+                $STATUS_PAGE = 0; //"pre next";
+            }
+            
+            // -1 입력등을 방지
+            if($page < 0) {
+                // 리턴 방식으로 redirect를 해줄려고 했으나 그렇게 되면 최종적으로 배열을 리턴을 못해주는 문제가 발생
+                // 강제로 0, 스테이터스 바꿔줌
+                $page=0;
+                $STATUS_PAGE = 1;
+            }
+        } 
+
+        return [
+                'page'=>$page, 'STATUS_PAGE'=>$STATUS_PAGE, 'maxPage'=>$maxPage,
+                'skip'=>$skip, 'limit'=>$limit
+                ];
+    }
+
+
 }
