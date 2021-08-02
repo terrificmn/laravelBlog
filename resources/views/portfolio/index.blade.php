@@ -56,59 +56,59 @@
 
 @endif
 
-@foreach ($posts as $post)
+@foreach ($portfolios as $portfolio)
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
         <div>
-            @if ($post->image_path == "NONE")
+            @if ($portfolio->image_path == "NONE")
                 <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
             @else
-                <img src="{{ asset('images/' .$post->image_path) }}" alt="" width="700">
+                <img src="{{ asset('images/' .$portfolio->image_path) }}" alt="" width="700">
             @endif
         </div>
         
         <div class="py-5">
             <h2 class="text-gray-700 font-bold text-5xl pb-4">
-                {{ $post->title }}
+                {{ $portfolio->title }}
             </h2>
 
             <span class="text-gray-500"> By <span class="font-bold italic text-gray-800">
-                {{ $post->user->name }}
-                </span>, Created on {{ date('jS M Y', strtotime($post->updated_at)) }}
+                {{ $portfolio->user->name }}
+                </span>, Created on {{ date('jS M Y', strtotime($portfolio->updated_at)) }}
             </span>
             
             <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
             <?php 
 
-            $dest_len = strlen($post->description);
+            $dest_len = strlen($portfolio->description);
             if ($dest_len < 100) {
-                echo nl2br(e($post->description));
+                echo nl2br(e($portfolio->description));
 
             } else { #100자 이상이면 ...을 붙여준다
                 // $substring = substr_replace($tag->post->description, '...', 101);
                 #substring은 한글이 깨져서 mb_substr()로 대체
-                $substring = mb_substr($post->description, 0, 50, 'UTF-8');
+                $substring = mb_substr($portfolio->description, 0, 50, 'UTF-8');
                 echo $substring.' ...';
             }
             ?>
             </p>
 
-            <a href="/portfolio/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            <a href="/portfolio/{{ $portfolio->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
                 Keep Reading
             </a>
 
             {{-- 사용자 확인 --}}
-            @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+            @if (isset(Auth::user()->id) && Auth::user()->id == $portfolio->user_id)
                 <span class="float-right">
-                    <a href="/portfolio/{{ $post->slug }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+                    <a href="/portfolio/{{ $portfolio->slug }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
                         Edit 
                     </a>
                 </span>
 
                 <span class="float-right">
                     <form
-                        {{-- action="/portfolio/{{ $post->slug }}" --}}
-                        action="/portfolio/{{ $post->id }}"
+                        {{-- action="/portfolio/{{ $portfolio->slug }}" --}}
+                        action="/portfolio/{{ $portfolio->id }}"
                         method="post">
                         @csrf
                         @method('DELETE')
@@ -125,7 +125,7 @@
 
         <div class="m-auto pt-5">
             <ul>
-                @forelse ($post->tags as $tag )
+                @forelse ($portfolio->tags as $tag )
                     <li class='inline italic text-gray-600 px-2 leading-normal'>
                         <a href="/tag/{{ $tag['tag_name'] }}"> {{ '#'.$tag['tag_name'] }} </a>   
                     </li>

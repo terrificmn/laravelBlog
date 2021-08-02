@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tag;
 use App\Models\Devtag;
+use App\Models\Porttag;
 
 class TagController extends Controller
 {

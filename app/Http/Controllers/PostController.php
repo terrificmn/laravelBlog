@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Devnote;
+use App\Models\Portfolio;
 #use Cviebrock\EloquentSluggable\Services\SlugService; #사용안함: 라이브러리설치안함
 use Illuminate\Support\Str;
 use App\Models\Tag;
@@ -407,7 +408,9 @@ class PostController extends Controller
         //어떤 모델 사용할 지 결정 ($model)
         if ($model == "Post") {
             $totalCnt = Post::count();  # 포스팅 카운트
-        } else { // Devnote 일 경우 (현재 2가지 경우 밖에 없음 - Jun30 2021)
+        } elseif ($model == "Portfolio") {
+            $totalCnt = Portfolio::count();  # 포스팅 카운트
+        } else { // Devnote 일 경우 (현재 3가지 경우 - 03AUG 2021)
             $totalCnt = Devnote::count();  # 포스팅 카운트
         }
         

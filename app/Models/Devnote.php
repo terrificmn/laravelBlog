@@ -12,7 +12,7 @@ class Devnote extends Model
 
     public function user() {
         //one post belongs to User table's id
-        return $this->belongsTo(User::class); //relationship between Post and User
+        return $this->belongsTo(User::class); //relationship between Devnote and User
     }
 
     // devtag와 관계정의 - tag모델과 쌍둥이 (복사판)
