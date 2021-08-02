@@ -76,6 +76,10 @@ class TagController extends Controller
             $dbCollection =\App\Models\Devnote::latest()->first();
             $tag = new \App\Models\Devtag;
 
+        } else if ($tableName == "Portfolio") {
+            $dbCollection =\App\Models\Portfolio::latest()->first();
+            $tag = new \App\Models\Porttag;
+
         } else {
             // 마지막 포스트 데이터 가져오기
             $dbCollection =\App\Models\Post::latest()->first();
@@ -110,6 +114,10 @@ class TagController extends Controller
                 //위에서 마지막 태그만 저장하는 문제점은 아래처럼 하면 해결이 되지만 if를 또 써야하고 아예 더 좋은 방법이 있을지 생각해함-Jun24 2021
                 if ($tableName == "Devnote") {
                     $tag = new \App\Models\Devtag; 
+
+                } elseif ($tableName == "Portfolio") {
+                    $tag = new \App\Models\Porttag; 
+
                 } else {
                     $tag = new \App\Models\Tag;
                 }

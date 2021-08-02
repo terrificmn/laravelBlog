@@ -44,7 +44,7 @@ Route::patch('/devnote/{slug}', 'App\Http\Controllers\DevnoteController@update')
 Route::delete('/devnote/{id}', 'App\Http\Controllers\DevnoteController@destroy'); //delete (delete 메소드)
 Route::get('/devnote/{slug}', 'App\Http\Controllers\DevnoteController@show');
 
-
+Route::resource('/portfolio', 'App\Http\Controllers\PortfolioController');
 // Auth::routes();
 
 // Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
