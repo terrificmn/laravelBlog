@@ -229,4 +229,71 @@ class PortfolioController extends Controller
     }
 
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($slug)
+    {
+        return view('portfolio.edit')->with('portfolio', Portfolio::where('slug', $slug)->first());
+
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $slug)
+    {
+        //dd($request->input('textMd'));
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            // 'image' => 'required|mimes:jpg,png,jpeg|max:5048'
+        ]);
+        
+        // 예전 slug로 비교해야지 update where clause를 불러올 수 있음
+        $exSlug = $slug;
+
+        // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
+        // 객체 먼저 만들어주기 (cleanUrl() 사용하기 위해 Postcontroller 클래스 사용)
+        $Post = new \App\Http\Controllers\PostController;
+        $slug = $Post->cleanUrl($request->input('title'));
+        
+        // 새로 업데이트를 위해 업로드한 mdfile 확인
+        if (isset($_FILES['mdfile']) and $_FILES['mdfile']['error'] == 0) {
+            // 뭔가 $_FILES에 error가 있어서 있기는 있는 거래서 여기로 들어오게 됨 그래서 ['error'] 추가
+            // 에러가 없어야지 실행
+
+            // 아규먼트 넘겨줄려고 했으나, $_FILES가 슈퍼글로벌이여서 그냥 안넘김
+            $updatedMdfile = $Post->processingMdfile(); 
+
+        } else { // 파일업로드 없으면 
+            if ($request->input('textMd') == NULL) {
+                $updatedMdfile = "NONE";  // 아예 md파일 업로드가 없는 경우
+            } else {
+                $updatedMdfile = $request->input('textMd');
+            }
+            
+        }
+
+        Portfolio::where('slug', $exSlug)->update( [ 
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'convertedMd' => $updatedMdfile,
+            'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
+            'user_id' => auth()->user()->id
+        ]);
+
+        return redirect('/portfolio')->with('message', 'Your post has been updated!');
+    }
+
+
+
 }

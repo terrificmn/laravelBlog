@@ -396,8 +396,8 @@ class PostController extends Controller
                     // 함수로 만들면서 return 리다이렉트가 무의미해짐
                     //return redirect('/blog/create')->with('message', 'md파일 형식이 아닙니다!');
                 }
-            } else {  // md file업로드가 없는 경우
-                $covertedTxt_Md = 'NONE';  //추후 기본이미지 주소로 셋팅하거나 다른 방법 생각해보기 19mar 2021
+            } else {  // md file업로드가 없는 경우  (이미지 업로드가 없을 경우 (에러코드 4일 경우)에 리턴할 수 있게 변경) 03AUG 2021
+                return $covertedTxt_Md = 'NONE';  //추후 기본이미지 주소로 셋팅하거나 다른 방법 생각해보기 19mar 2021
             }   
         } 
 
