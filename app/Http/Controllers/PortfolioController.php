@@ -115,7 +115,7 @@ class PortfolioController extends Controller
 
         if (isset($temporaryFile)) {
             //한번만 만들기 (임시로 저장할 때는 사진 당 디렉토리 하나) //$request->imageFile은 유니크 아이디로 넘어옴
-            $storageToDir = storage_path('app/public/images/portfoilo_images/'.$request->imageFile[0]);
+            $storageToDir = storage_path('app/public/images/portfolio_images/'.$request->imageFile[0]);
             
             if (!file_exists($storageToDir)) { 
                 #에러 처리 복사할 곳에 파일이 없으면 만들기
