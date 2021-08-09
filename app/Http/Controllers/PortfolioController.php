@@ -165,13 +165,35 @@ class PortfolioController extends Controller
         $portfolio = Portfolio::where('slug', $slug)->first();
         
         $originMd = $portfolio->convertedMd;
-        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-blue-400 py-1 leading-normal\">", $originMd);
-        // $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-orange-400 py-1 leading-normal\">", $replacedMd);
+        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-orange-500 py-1 leading-normal\">", $originMd);
+        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-blue-500 py-1 leading-normal\">", $replacedMd);
         // $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-4 border-gray-400 italic\">", $replacedMd);
         // $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg m-5 w-5/6 mx-auto text-gray-200\">", $replacedMd);
         // $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-700 text-left border-b border-gray-300\">", $replacedMd);
         // $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500 hover:bg-gray-100\">", $replacedMd);
-        // $replacedMd = preg_replace("/<a href=/", "<a class=\"text-indigo-600 hover:underline\" href=", $replacedMd);
+        $replacedMd = preg_replace("/<a href=/", "<a class=\"text-indigo-600 hover:underline\" href=", $replacedMd);
+        $replacedMd = preg_replace("/<ol>/", "<ol class=\"list-decimal md:list-inside\">", $replacedMd);
+        
+        
+        // ol에 아무리 스타일을 해줘도 두 번째는 숫자 2로 시작한다고 태그가 변경이 되어 버려서 번호가 늘어나지를 않는다. 그래서 어쩔 수 없이;;;
+        preg_match_all("/(<[ol]+ [start]+=\"[0-9]\">)/", $replacedMd, $matches);  //"/(<[a-z]+ [a-z]+=\"[0-9]\">)/" 이런식으로 할려고 했으나 왠만한 태그는 다 걸림
+        
+        // 위의 정규식으로 ul start="2" 이런식으로 찾아내서 $matches 배열로 받는다
+        for($i=0; $i < count($matches[0]); $i++) {
+            //배열에서 숫자만 뽑아내기
+            preg_match("/[0-9]/", $matches[0][$i], $matchNum);
+            //echo $matchNum[0]; //array로 변환되지만 for문 안 이므로 0번째만 있음
+            $regrexOl = "/<ol start=". "\"". strval($matchNum[0]) ."\"" . ">/";
+            $replacedOl = "<ol start=". "\"". strval($matchNum[0]) ."\"". " class=\"list-decimal md:list-inside\">";
+            
+            $replacedMd = preg_replace($regrexOl, $replacedOl, $replacedMd);
+        }
+        
+        $replacedMd = preg_replace("/<ul>/", "<ul class=\"list-disc list-inside pl-4\">", $replacedMd);
+        // ul태그 변환된 것이 무조건 p태그가 붙어서 한칸이 띄어지는 것을 
+        // 삭제한 이유는 ol 태그 다음에 한칸내려서 쓰게 되면 무조건 p태그이 붙어서 강제로 없애기 
+        $replacedMd = preg_replace("/<li>\n<p>/", "<li>", $replacedMd);
+        $replacedMd = preg_replace("/<\/p>\n<\/li>/", "</li>", $replacedMd);
         
         
         # 쿼리 빌더로 left join에서 파일 순으로 정렬해서 받아오기, 업로드시 업로드가 빠른 순서대로 올라가짐- 그래서 파일순서가 뒤죽박죽임
@@ -191,7 +213,7 @@ class PortfolioController extends Controller
                 # storage안의 public에 파일이 있어야 함 : 심볼릭링크함 
                 $srcImgDirFilename =  asset('storage/images/portfolio_images/'. $portfolio->dirname.'/'.$portfolio->filename);
                 # <img src=0> 이런식으로 mdfile에 되어 있는것을 변환해줌
-                $replacedMd = preg_replace("/<img src=$mdImgCount>/", "<img src=\"$srcImgDirFilename\" ", $replacedMd);
+                $replacedMd = preg_replace("/<img src=$mdImgCount>/", "<img src=\"$srcImgDirFilename\">", $replacedMd);
                 $mdImgCount++;
             }
         }
