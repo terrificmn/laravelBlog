@@ -78,7 +78,7 @@
                 <div class="bg-gray-lighter pt-5">
                     <label class="w-44 flex flex-col itmes-center px-2 py-3 bg-white-rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer">
                         <span class="mt-2 text-base leading-normal">
-                            Select a image(구현안함)
+                            Select a image
                         </span>
                         <input type="file" name="image" class="hidden">
                 </div> 
@@ -89,6 +89,14 @@
                 <p class="w-1/5 mb-4 text-yellow-600 rounded-2xl py-4 pl-2">
                     업로드된 사진이 있습니다
                 </p>
+                {{-- 이미 업로드된 이미지가 있다면 파일명 넘겨주기 --}}
+                <input type="text" class="hidden" name="uploaded_image_path" value="{{$post->image_path}}">
+
+                    <label class="w-44 flex flex-col itmes-center px-2 py-3 bg-white-rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer">
+                        <span class="mt-2 text-base leading-normal">
+                            Re-upload image
+                        </span>
+                    <input type="file" name="image" class="hidden">
             </div>
         @endif
 

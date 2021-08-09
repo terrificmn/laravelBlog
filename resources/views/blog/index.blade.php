@@ -68,7 +68,7 @@
         </div>
         
         <div class="py-5">
-            <h2 class="text-gray-700 font-bold text-5xl pb-4">
+            <h2 class="text-gray-700 font-bold text-4xl leading-tight pb-4">
                 {{ $post->title }}
             </h2>
 

@@ -314,11 +314,38 @@ class PostController extends Controller
             $updatedMdfile = $request->input('textMd');
         }
 
+
+        // image re-upload 
+        if (!$request->image) {
+            // 기존에 hidden input으로 원래 있던 이미지의 파일명을 받아온다. 
+            if ($request->uploaded_image_path) {
+                $newImageName = $request->uploaded_image_path;
+            } else {
+                $newImageName = 'NONE';
+            }
+
+        } else {
+            // 이미지가 있는 경우에 다시 validate
+            $request->validate([
+                'image' => 'required|mimes:jpg,gif,png,jpeg|max:5048',
+            ]);
+
+            # image이름 만들어 주기(업로드 위해서  uniqid() 를 이용 유니크한 숫자를 만들어 준다)
+            $newImageName = uniqid(). '-' . $slug . '.' . $request->image->extension();
+            //dd($newImageName);
+            
+            // image->move() 메소드해서 public_path()는 디렉토리가 없으면 알아서 만들어 준다
+            // public디렉토리에 images라는 디렉토리를 만들고 이미지 저장
+            $request->image->move(public_path('images'), $newImageName);
+        }
+
+
         Post::where('slug', $exSlug)->update( [ 
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'convertedMd' => $updatedMdfile,
             'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
+            'image_path' => $newImageName,
             'user_id' => auth()->user()->id
         ]);
 
