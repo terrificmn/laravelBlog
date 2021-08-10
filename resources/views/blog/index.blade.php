@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('page_title', 'Blog | My Posts')
+
 @section('content')
 <div class="w-4/5 m-auto text-center">
     <div class="py-15 border-b border-gray-200">
@@ -77,7 +79,7 @@
                 </span>, Created on {{ date('jS M Y', strtotime($post->updated_at)) }}
             </span>
             
-            <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
+            <p class="text-lg text-gray-700 pt-8 pb-10 leading-8 font-light">
             <?php 
 
             $dest_len = strlen($post->description);

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('page_title', 'Note | My Dev-notes')
+
 @section('content')
 <div class="w-4/5 m-auto text-left">
     <div class="py-15">

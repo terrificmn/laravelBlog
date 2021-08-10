@@ -22,10 +22,10 @@
         
         <div class="m-auto sm:m-auto text-left w-4/5 block">
             <h2 class="text-3xl font-extrabold text-gray-600">
-                QuickSwiftDev Blog 
+                QuickSwift Dev
             </h2>
 
-            <p class="py-8 text-gray-500 text-s">
+            <p class="py-8 text-gray-500 text-s leading-tight">
                 안녕하세요~ QuickSwift의 블로그에 오신 것을 환영 합니다
             </p>
 
@@ -79,11 +79,11 @@
     <div class="sm:grid grid-cols-2 w-4/5 m-auto">
         <div class="flex bg-yellow-700 text-gray-100 pt-10">
             <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block">
-                <span class="uppercase text-xl font-bold leading-normal">
+                <span class="uppercase text-lg font-bold leading-normal">
                     {{$posts->title}}
                 </span>
                 
-                <h3 class="text-lg py-10 leading-normal">
+                <h3 class="text-base py-10 leading-normal">
                     {{$posts->description}}
                 </h3>
 
