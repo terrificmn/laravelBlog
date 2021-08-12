@@ -4,7 +4,15 @@
 <div class="w-4/5 m-auto text-center">
     <div class="py-15 border-b border-gray-200">
         <h1 class="text-6xl">
-            Blog Posts
+        {{-- 리턴받은 model변수를 현재페이지의 인풋태그의 name으로 사용하기 위해서 원래는 search 였으나 
+        if문 덜 쓰려고 model변수값 사용--}}
+            @if ($model == "port_search")
+                Portfolio
+            @elseif ($model == "search")
+                Blog Posts
+            @elseif ($model == "dev_search")
+                Dev-Notes
+            @endif
         </h1>
     
 
@@ -12,7 +20,7 @@
             <form action="/search" method="GET">
                 <div class="bg-white flex items-center rounded-full shadow-xl">
                     
-                    <input class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none" name="search" id="search" type="text" placeholder="Search">
+                    <input class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none" name="{{$model}}" id="search" type="text" placeholder="Search">
 
                     <div class="p-3">
                         <button class="bg-blue-500 text-white rounded-full p-1 hover:bg-blue-400 focus:outline-none w-7 h-7 flex items-center justify-center">
@@ -57,10 +65,10 @@
 @endif
 
 
-@if (count($posts) != 0) 
+@if (count($results) != 0) 
     <?php $repeatCnt = 0;  // 컨트롤러에서 넘겨준 strongTitles를 처리하기 위해서 카운트 만듬 - 더 좋은 방법 찾으면 refactoring!?>
-    @foreach ($posts as $post)
-
+    @foreach ($results as $post)
+    
         <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
             <div>
                 <img src="{{ asset('images/' .$post->image_path) }}" alt="" width="700">
@@ -92,9 +100,20 @@
                 ?>
                 </p>
 
-                <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-                    Keep Reading
-                </a>
+                {{-- search컨트롤러에서 받은 model값을 활용하기로 함--}}
+                @if ($model == "port_search")
+                    <a href="/portfolio/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+
+                @elseif ($model == "search")
+                    <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+
+                @elseif ($model == "dev_search")
+                <a href="/devnote/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+
+                @endif
+
+                        Keep Reading
+                            </a>               
 
                 {{-- 사용자 확인 --}}
                 @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)

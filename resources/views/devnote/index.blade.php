@@ -14,7 +14,7 @@
             <form action="/search" method="GET">
                 <div class="bg-white flex items-center rounded-full shadow-xl">
                     
-                    <input class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none" name="search" id="search" type="text" placeholder="Search">
+                    <input class="rounded-l-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none" name="dev_search" id="search" type="text" placeholder="Search">
 
                     <div class="p-3">
                         <button class="bg-blue-500 text-white rounded-full p-1 hover:bg-blue-400 focus:outline-none w-7 h-7 flex items-center justify-center">
