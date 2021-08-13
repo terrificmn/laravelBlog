@@ -24,6 +24,20 @@ class TagController extends Controller
                 // TagController를 같이 쓰는 것 까지는 좋으나 index 페이지에서 복잡해짐
                 return view('tag.devtag')->with('tags', $Tag);
 
+            } else if ($_GET['whichTag'] == 'Port') {   //portfolio 페이지에서 받은 get값
+                
+                $Tag = Porttag::where('tag_name', $tag_id)
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
+                
+                return view('tag.index')->with(['tags'=>$Tag,
+                                                'ralationshipModel'=>"portfolio" ]);  
+                                                //원래는 위의 devnote 케이스 처럼 따로 devnote인덱스로 만들어서 하기보다는
+                                                // 기존의 tag.index 페이지 그대로 사용하기로 함, 
+                                                // blade페이지에서 portfolio 메소드를 호출해야하는데 (Porttag 모델 클래스에 관계정의한것)
+                                                // 근데 기존에서 $tag->portfolio->slug 이런식으로 쓰는데 $portfolio 변수를 넘기고 
+                                                // $tag->$portfolio->slug 가 가능해져서 코드를 수정 -- aug13, 21 
+
             } else {
                 // 이상한 문자열을 임의로 넘겼을 경우 // redirect할려고 했으나 web.php 라우트 설정해야함
                 return redirect('/devnote')->with('error_msg', 'It\' not allowed!');
@@ -34,7 +48,9 @@ class TagController extends Controller
             $Tag = Tag::where('tag_name', $tag_id)
                     ->orderBy('updated_at', 'desc')
                     ->get();
-            return view('tag.index')->with('tags', $Tag);
+            return view('tag.index')->with(['tags'=>$Tag,
+                                            'ralationshipModel'=>"post" ]);
+                                            // 위의 portfolio 관련해서 같이 공유하기로 함 -- 위 주석 참고 aug13, 21
         } 
         
     }

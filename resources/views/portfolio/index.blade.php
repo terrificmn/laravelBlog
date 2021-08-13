@@ -129,7 +129,7 @@
             <ul>
                 @forelse ($portfolio->tags as $tag )
                     <li class='inline italic text-gray-600 px-2 leading-normal'>
-                        <a href="/tag/{{ $tag['tag_name'] }}"> {{ '#'.$tag['tag_name'] }} </a>   
+                        <a href="/tag/{{ $tag['tag_name'] }}?whichTag=Port"> {{ '#'.$tag['tag_name'] }} </a>   
                     </li>
                 @empty
                     <li class='inline italic text-gray-600 px-1 py-3'>

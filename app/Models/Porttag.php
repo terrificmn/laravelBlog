@@ -10,7 +10,7 @@ class Porttag extends Model
     use HasFactory;
     protected $fillable = ['tag_name', 'post_id'];
 
-    public function porttag() {
+    public function portfolio() {
         return $this->belongsTo(\App\Models\Portfolio::class);
     }
     
