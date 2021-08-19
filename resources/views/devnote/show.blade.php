@@ -19,7 +19,7 @@
         ,  Created on {{ date('jS M Y', strtotime($devnote->updated_at)) }}
     </span>
 
-    <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
+    <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-normal">
         {!! $devnote->description !!}
         
     </p>

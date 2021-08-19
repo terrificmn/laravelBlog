@@ -70,7 +70,7 @@
         </div>
         
         <div class="py-5">
-            <h2 class="text-gray-700 font-bold text-5xl pb-4">
+            <h2 class="text-gray-700 font-bold text-4xl pb-4">
                 {{ $note->title }}
             </h2>
 
@@ -80,7 +80,7 @@
             </span>
             
             
-                <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
+                <p class="text-lg text-gray-700 pt-8 pb-10 leading-8 font-light">
                 <?php 
 
                 $dest_len = strlen($note->description);
