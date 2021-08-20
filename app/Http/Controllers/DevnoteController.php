@@ -85,6 +85,11 @@ class DevnoteController extends Controller
         // cleanUrl()메소드로 slug 처리하기 (한글도 지원)
         $slug = $post->cleanUrl($request->input('title'));
 
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
         // 이미지 업로드가 있으면 저장해주기
         if (!$request->image) {
             $newImageName = 'NONE';
