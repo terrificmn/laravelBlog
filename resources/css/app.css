@@ -1,20 +1,5 @@
-/* @import "tailwindcss/base";
+@import "tailwindcss/base";
 
 @import "tailwindcss/components";
 
-@import "tailwindcss/utilities"; */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* h1 tag regrex로 변환시키기로 함 */
-/* @layer base {
-    h1 {
-        @apply text-5xl text-blue-400;
-    }
-    h2 {
-        @apply text-4xl text-yellow-300;
-    }
-} */
-
+@import "tailwindcss/utilities";

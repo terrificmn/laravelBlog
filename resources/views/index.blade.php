@@ -72,7 +72,9 @@
         </h2>
 
         <p class="m-auto w-4/5 text-gray-400">
+            @if(!empty($posts))
             최근 포스트는 {{ date('jS M Y', strtotime($posts->updated_at)) }} 에 업데이트 되었습니다.
+            @endif
         </p>
     </div>
 
@@ -80,24 +82,32 @@
         <div class="flex bg-yellow-700 text-gray-100 pt-10">
             <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block">
                 <span class="uppercase text-lg font-bold leading-normal">
-                    {{$posts->title}}
+                    @if(!empty($posts))
+                        {{$posts->title}}
+                    @endif
                 </span>
                 
                 <h3 class="text-base py-10 leading-normal">
-                    {{$posts->description}}
+                    @if(!empty($posts))
+                        {{$posts->description}}
+                    @endif
                 </h3>
 
-                <a href="/blog/{{ $posts->slug }}"  class="uppercase bg-transparent border-2 border-gray-100 text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
+                @if(!empty($posts))
+                    <a href="/blog/{{ $posts->slug }}"  class="uppercase bg-transparent border-2 border-gray-100 text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
                     Find out more
                 </a>
+                @endif
             </div>
         </div>
         <div>
+        @if(!empty($posts))
             @if ($posts->image_path == "NONE")
                 <img src="https://cdn.pixabay.com/photo/2015/09/05/22/33/office-925806_960_720.jpg" alt="" width="700">
             @else
                 <img src="{{ asset('images/' .$posts->image_path) }}" alt="" width="700">
             @endif
+        @endif
         </div>
 </div>
 
