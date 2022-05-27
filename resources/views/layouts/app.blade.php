@@ -41,7 +41,7 @@
                 <div class="p-4 flex flex-row items-center justify-between">
                     <a href="{{ url('/') }}" class="block">
                         <span class="sr-only"></span>
-                        <img class="h-8" src="laravel-svg-logo.png" alt="Laravel home" title="Laravel home">
+                        <img class="h-8" src="/laravel-svg-logo.png" alt="Laravel home" title="Laravel home">
                     </a>
 
                     <button class="md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="mobileMenuOpen = !mobileMenuOpen">

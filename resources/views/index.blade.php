@@ -4,8 +4,7 @@
         <div class="flex text-gray-100 pt-10">
             <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block text-center">
                 <h1 class="sm:text text-gray-700 text-5xl uppercase font-bold text-shadow-md pb-14">
-                    Do you want to become a developer?
-                    Yes, I do!
+                    I want to become a professional developer!
                 </h1>
                 
                 <a href="/blog" class="text-center bg-gray-50 text-gray-700 py-2 px-4 font-bold text-xl uppercase">
@@ -17,7 +16,7 @@
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
         <div>    
-            <img src="https://cdn.pixabay.com/photo/2015/09/05/22/33/office-925806_960_720.jpg" alt="" width="700">
+            <img src="https://cdn.pixabay.com/photo/2016/04/04/14/12/monitor-1307227_960_720.jpg" alt="" width="700">
         </div>
         
         <div class="m-auto sm:m-auto text-left w-4/5 block">
@@ -26,7 +25,7 @@
             </h2>
 
             <p class="py-8 text-gray-500 text-s leading-tight">
-                안녕하세요~ QuickSwift의 블로그에 오신 것을 환영 합니다
+                안녕하세요~ <br/><strong>QuickSwift</strong>의 블로그에 오신 것을 환영 합니다
             </p>
 
             <p class="font-extrabold text-gray-600 text-s pb-9 leading-snug">
@@ -43,22 +42,22 @@
 
     <div class="text-center p-15 bg-black text-white">
         <h2 class="text-2xl pb-5 text-1"> 
-            I'm an expert in ..
+            I'm an expert in .. (wannabe)
 
-        {{-- <span class="font-extrabold block text-4xl py-1">
-            UX Design 
-        </span> --}}
         <span class="font-extrabold block text-4xl py-1">
-            Backend Development
+            Robotics Backend Development
         </span>
         <span class="font-extrabold block text-4xl py-1">
-            Machine Learning
+            Server-side Backend Development
         </span>
         <span class="font-extrabold block text-4xl py-1">
             Database Management
         </span>
         <span class="font-extrabold block text-4xl py-1">
-            Self Driving Car Development
+            Machine Learning
+        </span>
+        <span class="font-extrabold block text-4xl py-1">
+            
         </span>
 
     </div>
