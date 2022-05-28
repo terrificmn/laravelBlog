@@ -14,7 +14,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <!-- filepond -->
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
