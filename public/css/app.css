@@ -802,11 +802,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(22 163 74 / var(--tw-border-opacity));
 }
 
-.border-gray-200 {
-  --tw-border-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity));
-}
-
 .border-gray-100 {
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
@@ -815,6 +810,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-red-500 {
   --tw-border-opacity: 1;
   border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
 .border-gray-400 {
@@ -1021,6 +1021,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 3.5rem;
 }
 
+.pb-10 {
+  padding-bottom: 2.5rem;
+}
+
 .pb-9 {
   padding-bottom: 2.25rem;
 }
@@ -1047,10 +1051,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pt-8 {
   padding-top: 2rem;
-}
-
-.pb-10 {
-  padding-bottom: 2.5rem;
 }
 
 .pb-1 {
@@ -1289,21 +1289,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(250 204 21 / var(--tw-text-opacity));
 }
 
-.text-blue-200 {
-  --tw-text-opacity: 1;
-  color: rgb(191 219 254 / var(--tw-text-opacity));
-}
-
-.text-blue-100 {
-  --tw-text-opacity: 1;
-  color: rgb(219 234 254 / var(--tw-text-opacity));
-}
-
-.text-orange-100 {
-  --tw-text-opacity: 1;
-  color: rgb(255 237 213 / var(--tw-text-opacity));
-}
-
 .no-underline {
   -webkit-text-decoration-line: none;
           text-decoration-line: none;
@@ -1417,21 +1402,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-gray-900:hover {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
-}
-
-.hover\:text-blue-600:hover {
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
-}
-
-.hover\:text-gray-200:hover {
-  --tw-text-opacity: 1;
-  color: rgb(229 231 235 / var(--tw-text-opacity));
-}
-
-.hover\:text-blue-500:hover {
-  --tw-text-opacity: 1;
-  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {

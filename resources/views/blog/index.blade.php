@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="w-4/5 m-auto text-center">
-    <div class="py-15 border-b border-gray-200">
+    <div class="py-10 border-b border-gray-200">
         <h1 class="text-6xl">
             Blog Posts
         </h1>
@@ -125,7 +125,7 @@
             @endif
         </div>
 
-        <div class="m-auto pt-5">
+        <div class="m-auto py-5">
             <ul>
                 @forelse ($post->tags as $tag )
                     <li class='inline italic text-gray-600 px-2 leading-normal'>
