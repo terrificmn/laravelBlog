@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="w-4/5 m-auto text-center">
-    <div class="py-15 border-b border-gray-200">
+    <div class="py-10 border-b border-gray-200">
         <h1 class="text-6xl">
             Dev-Notes
         </h1>
@@ -50,8 +50,8 @@
 
 <!-- login user auth check -->
 @if (Auth::check())  
-    <div class="pt-15 w-4/5 m-auto">
-        <a href="/devnote/create" class="bg-blue-800 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
+    <div class="py-8 w-4/5 m-auto">
+        <a href="/devnote/create" class="bg-cyan-300 hover:bg-cyan-400 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
             Create Post
         </a>
     </div>
@@ -61,7 +61,7 @@
 @foreach ($devnotes as $note)
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        <div>
+        <div class="py-5">
             @if ($note->image_path == "NONE")
                 <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
             @else
@@ -98,7 +98,7 @@
                 ?>
                 </p>
             
-            <a href="/devnote/{{ $note->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            <a href="/devnote/{{ $note->slug }}" class="uppercase bg-blue-800 hover:bg-blue-700 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
                 Keep Reading
             </a>
 
@@ -128,7 +128,7 @@
             @endif
         </div>
         
-        <div class="m-auto pt-5">
+        <div class="m-auto pt-5 col-span-2 w-4/5 pb-2">
             <ul>
                 @forelse ($note->tags as $tag )
                     <li class='inline italic text-gray-600 px-2 leading-normal'>

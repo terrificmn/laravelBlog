@@ -50,8 +50,8 @@
 
 <!-- login user auth check -->
 @if (Auth::check())  
-    <div class="pt-15 w-4/5 m-auto">
-        <a href="/blog/create" class="bg-blue-800 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
+    <div class="py-8 w-4/5 m-auto">
+        <a href="/blog/create" class="bg-cyan-300 hover:bg-cyan-400 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
             Create Post
         </a>
     </div>
@@ -61,7 +61,7 @@
 @foreach ($posts as $post)
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        <div>
+        <div class="py-5">
             @if ($post->image_path == "NONE")
                 <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
             @else
@@ -95,7 +95,7 @@
             ?>
             </p>
 
-            <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            <a href="/blog/{{ $post->slug }}" class="uppercase bg-blue-800 hover:bg-blue-700 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
                 Keep Reading
             </a>
 
@@ -125,7 +125,7 @@
             @endif
         </div>
 
-        <div class="m-auto py-5">
+        <div class="m-auto py-5 col-span-2 w-4/5 pb-2">
             <ul>
                 @forelse ($post->tags as $tag )
                     <li class='inline italic text-gray-600 px-2 leading-normal'>
@@ -144,41 +144,43 @@
 
 @endforeach
 
-    <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-    {{-- 
-        컨트롤러에서 넘어오면 데이터 중
-        maxpage 가 1이면 게시글이 딱 맞는 상태 예: 12개 게시글이 있는데 12개만 보여준다고 했을 경우
-        maxpage 1 이하이면 아직 next페이지 요건이 안된것
-        STATUS_PAGE -1  앞 페이지
-        STATUS_PAGE 0  앞 뒤 페이지
-        STATUS_PAGE 1  뒤 페이지
-    --}}
-        @if ($maxpage > 1)
-            @if ($STATUS_PAGE == -1)
-                <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
-                previous page 
-                </a>
-            
-            @elseif ($STATUS_PAGE == 0)
-                <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
-                previous page 
-                
-                </a>
+    <div class="sm:grid grid grid-cols-3 gap-5 w-4/5 mx-auto py-10 border-b border-gray-200">
+        
+        {{-- 
+            컨트롤러에서 넘어오면 데이터 중
+            maxpage 가 1이면 게시글이 딱 맞는 상태 예: 12개 게시글이 있는데 12개만 보여준다고 했을 경우
+            maxpage 1 이하이면 아직 next페이지 요건이 안된것
+            STATUS_PAGE -1  앞 페이지
+            STATUS_PAGE 0  앞 뒤 페이지
+            STATUS_PAGE 1  뒤 페이지
+        --}}
+            @if ($maxpage > 1)
+                @if ($STATUS_PAGE == -1)
+                <div class="col-start-1 col-span-1">
+                    <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-500 font-semibold text-justify"> 
+                        previous page 
+                    </a>
+                </div>
+                @elseif ($STATUS_PAGE == 0)
+                <div class="col-start-1 col-span-1">
+                    <a href="/blog?page={{intval($page)-1}}" class="uppercase text-yellow-500 font-semibold text-lg text-justify"> 
+                        previous page 
+                    </a>
+                </div>
+                <div></div>
+                <div class="col-start-3 col-span-1 text-right">
+                    <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 font-semibold text-lg text-right"> 
+                        next page 
+                    </a>
+                </div>
+                @elseif ($STATUS_PAGE == 1)
+                <div class="col-start-3 col-span-1 text-right">
+                    <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 font-semibold text-lg text-right"> 
+                    next page </a>
+                </div>
+                @endif
 
-                <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-                next page </a>
-
-            @elseif ($STATUS_PAGE == 1)
-                <a href="/blog?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-                next page </a>
             @endif
-
-        @endif
-
     </div>
 
 
