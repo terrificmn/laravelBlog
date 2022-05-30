@@ -4,11 +4,11 @@
         <div class="flex text-gray-100 pt-10">
             <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block text-center">
                 <h1 class="sm:text text-gray-700 text-5xl uppercase font-bold text-shadow-md pb-14">
-                    I want to become a professional developer!
+                    try, train hard by myself and be Taught by others 
                 </h1>
                 
-                <a href="/blog" class="text-center bg-gray-50 text-gray-700 py-2 px-4 font-bold text-xl uppercase">
-                    Read posts
+                <a href="/portfolio" class="text-center bg-gray-100 text-gray-600 hover:text-gray-800 border-indigo-400 hover:border-indigo-800  border-2 py-2 px-4 font-bold text-xl uppercase">
+                    Portfolio 보기
                 </a>
             </div>
         </div>
@@ -20,8 +20,8 @@
         </div>
         
         <div class="m-auto sm:m-auto text-left w-4/5 block">
-            <h2 class="text-3xl font-extrabold text-gray-600">
-                QuickSwift Dev
+            <h2 class="text-2xl font-extrabold text-orange-600">
+                QuickSwift's Blog
             </h2>
 
             <p class="py-8 text-gray-500 text-s leading-tight">
@@ -34,16 +34,18 @@
                 그래도 애정을 갖고 뚝딱뚝딱(?) 만들고 있는 블로그 입니다.
             </p>
 
-            <a href="/blog" class="uppercase bg-blue-800 text-gray-10 text-s font-extrabold py-3 px-8 rounded-3xl">
-            Find Out more
+            <a href="/blog" class="uppercase bg-blue-600 hover:bg-blue-800 text-gray-100 text-s font-extrabold py-3 px-8 rounded-3xl">
+                Find Out more
             </a>
         </div>
     </div>
 
     <div class="text-center py-5 bg-black text-white">
-        <h2 class="text-2xl pb-5 text-1"> 
-            I'm an expert in .. (wannabe)
-
+        <span>
+            <h2 class="text-3xl pb-5 text-1"> 
+                I'm an expert in .. (wannabe)
+            </h2>
+        </sapn>
         <span class="font-extrabold block text-4xl py-1">
             Robotics Backend Development
         </span>
