@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="w-4/5 m-auto text-left">
-    <div class="py-15">
-        <h1 class="text-6xl">
+    <div class="py-10">
+        <h1 class="text-4xl">
             Create Dev-Notes
         </h1>
     </div>
@@ -39,16 +39,16 @@
 
         @csrf
 
-        <input type="text" name="title" placeholder="title..." class="bg-transparent block border-b-2 w-full h-20 text-2xl ouline-none">
+        <input type="text" name="title" placeholder="title..." class="bg-transparent block border-b-2 w-full h-15 text-xl ouline-none">
 
         <textarea
             name="description"
             placeholder="Description..."
             id="note-textarea"
-            class="py-5 bg-transparent block border-b-2 w-full h-60 text-1xl outlilne-none"></textarea>
+            class="py-5 bg-transparent block border-b-2 w-full h-80 text-l outlilne-none"></textarea>
 
-        <div class="bg-gray-lighter pt-15">
-            <label class="w-44 flex flex-col items-center px-2 py-3 bg-white-rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer">
+        <div class="bg-gray-lighter py-10">
+            <label class="w-44 flex flex-col items-center px-2 py-2 bg-white-rounded-lg shadow-lg tracking-wide uppercase border-2 border-indigo-400 hover:border-indigo-800 cursor-pointer">
                 <span class="mt-2 text-base leading-normal">
                     인덱스 이미지파일
                 </span>
@@ -57,13 +57,14 @@
 
         <div class="pt-10">
             <label class="m-auto">해쉬태그를 원하면 입력해 주세요.</label>
-            <input type="text" name="tag" placeholder="tag..." class="bg-transparent block border-b-2 w-full h-20 text-2xl ouline-none">
+            <input type="text" name="tag" placeholder="tag..." class="bg-transparent block border-b-2 w-full h-10 py-5 text-l ouline-none">
         </div>
 
-        
-        <button type="submit" class="uppercase mt-15 bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Submit Post
-        </button>
+        <div class="mt-20 text-right">
+            <button type="submit" class="uppercase mt-15 bg-blue-800 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
+                Submit Post
+            </button>
+        </div>
     </form>
 </div>
 

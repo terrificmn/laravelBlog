@@ -571,12 +571,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100%;
 }
 
-.h-20 {
-  height: 5rem;
-}
-
 .h-60 {
   height: 15rem;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-20 {
+  height: 5rem;
 }
 
 .h-80 {
