@@ -3,26 +3,27 @@
 @section('page_title', 'Note | My Dev-notes')
 
 @section('content')
-<div class="w-4/5 m-auto text-left">
-    <div class="py-15">
-        <h1 class="text-4xl">
+<div class="w-4/5 m-auto text-left py-10">
+    <div class="py-5">
+        <h1 class="text-4xl leading-snug">
             {{ $devnote->title }}
         </h1>
     </div>
 </div>
 
-<div class="w-4/5 m-auto pt-5">
-    <span class="text-gray-500">By 
-        <span class="font-bold italic text-gray-800">
-            {{$devnote->user->name }}
-        </span> 
-        ,  Created on {{ date('jS M Y', strtotime($devnote->updated_at)) }}
-    </span>
+<div class="w-4/5 m-auto">
+    <div class="py-8">
+        <span class="text-gray-500">By 
+            <span class="font-bold italic text-gray-800">
+                {{$devnote->user->name }}
+            </span> 
+            ,  Created on {{ date('jS M Y', strtotime($devnote->updated_at)) }}
+        </span>
+    </div>
 
-    <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-normal">
+    <span class="text-l text-gray-800 leading-relaxed font-normal">
         {!! $devnote->description !!}
-        
-    </p>
+    </span>
 
     
     

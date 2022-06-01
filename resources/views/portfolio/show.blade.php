@@ -3,9 +3,9 @@
 @section('page_title', 'Portfolio | My Project')
 
 @section('content')
-<div class="w-4/5 m-auto text-left">
-    <div class="py-15">
-        <h1 class="text-4xl">
+<div class="w-4/5 m-auto text-left py-10">
+    <div class="py-5">
+        <h1 class="text-4xl leading-snug">
             {{ $portfolio->title }}
         </h1>
     </div>
