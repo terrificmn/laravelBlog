@@ -170,7 +170,7 @@ class PortfolioController extends Controller
         $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-green-500 py-1 leading-normal\">", $replacedMd);
         $replacedMd = preg_replace("/<\/h2>/", "<hr class=\"border\"></h2>", $replacedMd);
         $replacedMd = preg_replace("/<h3>/", "<h3 class=\"text-xl text-indigo-400 py-1 leading-normal\">", $replacedMd);
-        $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-8 border-gray-400 italic\">", $replacedMd);
+        $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 rounded-md border-l-8 border-gray-400 italic\">", $replacedMd);
         $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg m-5 w-5/6 mx-auto text-gray-200\">", $replacedMd);
         $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-400 text-left border-b border-gray-300\">", $replacedMd);
         $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-300 border-b border-gray-500 hover:bg-gray-200\">", $replacedMd);

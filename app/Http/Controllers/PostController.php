@@ -220,7 +220,7 @@ class PostController extends Controller
         $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-yellow-600 py-1 leading-normal\">", $originMd);
         $replacedMd = preg_replace("/<\/h1>/", "<hr class=\"border-2\"></h1>", $replacedMd);
         $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-green-500 py-1 leading-normal\">", $replacedMd);
-        $replacedMd = preg_replace("/<\/h2>/", "<hr class=\"border-1\"></h2>", $replacedMd);
+        $replacedMd = preg_replace("/<\/h2>/", "<hr class=\"border\"></h2>", $replacedMd);
         $replacedMd = preg_replace("/<h3>/", "<h3 class=\"text-xl text-indigo-400 py-1 leading-normal\">", $replacedMd);
         $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-8 rounded-md border-gray-400 italic\">", $replacedMd);
         $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg m-5 w-5/6 mx-auto text-gray-200\">", $replacedMd);
