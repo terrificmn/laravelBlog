@@ -26,6 +26,16 @@
 
     <div class="text-base text-gray-700 pt-1 pb-1 leading-8 font-normal space-y-4">
         {{-- {!! $portfolio->convertedMd !!} --}}
+        {{-- {{ app.css파일에 추가해놓기 위해서 함:controller에서 변환할 css class와 매칭 }} --}}
+        {{-- <hidden name="h1_tag" class="text-yellow-600"></hidden> 
+        <hidden name="h2_tag" class="text-indigo-400"></hidden>
+        <hidden name="h3_tag" class="text-green-500 bg-gray-400"></hidden>
+        <hidden name="table1" class="bg-gray-200 rounded-t-lg"></hidden>
+        <hidden name="tr" class="bg-gray-300 border-gray-500"></hidden>
+        <hidden name="blockquote" class="border-l-8 rounded-md border-gray-400"></hidden> --}}
+        {{-- <hidden name="ol" class="list-decimal md:list-inside"></hidden>
+        <hidden name="ul" class="list-disc list-inside"></hidden> --}}
+
         {!! $portfolioMd !!}
         
     </div>

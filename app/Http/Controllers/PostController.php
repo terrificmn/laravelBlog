@@ -217,15 +217,28 @@ class PostController extends Controller
         $posts = Post::where('slug', $slug)->first();
         
         $originMd = $posts->convertedMd;
-        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-blue-400 py-1 leading-normal\">", $originMd);
-        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-orange-400 py-1 leading-normal\">", $replacedMd);
-        $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-4 border-gray-400 italic\">", $replacedMd);
+        $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-yellow-600 py-1 leading-normal\">", $originMd);
+        $replacedMd = preg_replace("/<\/h1>/", "<hr class=\"border-2\"></h1>", $replacedMd);
+        $replacedMd = preg_replace("/<h2>/", "<h2 class=\"text-3xl text-green-500 py-1 leading-normal\">", $replacedMd);
+        $replacedMd = preg_replace("/<\/h2>/", "<hr class=\"border-1\"></h2>", $replacedMd);
+        $replacedMd = preg_replace("/<h3>/", "<h3 class=\"text-xl text-indigo-400 py-1 leading-normal\">", $replacedMd);
+        $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-8 rounded-md border-gray-400 italic\">", $replacedMd);
         $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg m-5 w-5/6 mx-auto text-gray-200\">", $replacedMd);
-        $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-700 text-left border-b border-gray-300\">", $replacedMd);
-        $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-600 border-b border-gray-500 hover:bg-gray-100\">", $replacedMd);
-        $replacedMd = preg_replace("/<a href=/", "<a class=\"text-indigo-600 hover:underline\" href=", $replacedMd);
-        
-        
+        $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-400 text-left border-b border-gray-300\">", $replacedMd);
+        $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-300 border-b border-gray-500 hover:bg-gray-200\">", $replacedMd);
+        $replacedMd = preg_replace("/<a href=/", "<a class=\"text-sky-400 hover:underline\" href=", $replacedMd);
+        $replacedMd = preg_replace("/<ol>/", "<ol class=\"list-decimal md:list-inside\">", $replacedMd);
+        $replacedMd = preg_replace("/<ul>/", "<ul class=\"list-disc list-inside pl-4\">", $replacedMd);
+        // ul태그 변환된 것이 무조건 p태그가 붙어서 한칸이 띄어지게 됨
+        // 삭제한 이유는 ol 태그 다음에 한칸내려서 쓰게 되면 무조건 p태그이 붙어서 강제로 없애기 
+        // 예: 이미 p태그가 붙어 있어서 결과가 
+        // 1.
+        // bla~bla
+        // 2.
+        // blas~bla 이런식으로 나오게 됨 .. 이를 방지하고자 하는 것
+        $replacedMd = preg_replace("/<li>\n<p>/", "<li>", $replacedMd);
+        $replacedMd = preg_replace("/<\/p>\n<\/li>/", "</li>", $replacedMd);
+
         # 쿼리 빌더로 left join에서 파일 순으로 정렬해서 받아오기, 업로드시 업로드가 빠른 순서대로 올라가짐- 그래서 파일순서가 뒤죽박죽임
         # ->first() 만 해서 받아오려고 했으나 그러면 정말 slug에 해당하는 한개만 포스트만 가져오고, postimages테이블의 내용을 볼 수가 없음
         # ->get()으로 받아오면 배열로 받아와서 기존 코드랑 호환이 안됨 -> 그래서 다시 쿼리 
