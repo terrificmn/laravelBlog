@@ -235,9 +235,10 @@ class PostController extends Controller
         // 1.
         // bla~bla
         // 2.
-        // blas~bla 이런식으로 나오게 됨 .. 이를 방지하고자 하는 것
-        $replacedMd = preg_replace("/<li>\n<p>/", "<li>", $replacedMd);
-        $replacedMd = preg_replace("/<\/p>\n<\/li>/", "</li>", $replacedMd);
+        // blas~bla 이런식으로 나오게 됨 .. 이를 방지하고자 하는 것   
+        // 정규식 중 \n 으로 하면 되지만, 일부에서는 안되서 \r 과 \n 둘 다 만족이 되는 듯 (리눅스가\n 근데 리눅스에서안됨;;;) [\r\n]+  또는 \r?\n
+        $replacedMd = preg_replace("/<li>[\r\n]+<p>/", "<li>", $replacedMd);
+        $replacedMd = preg_replace("/<\/p>[\r\n]+<\/li>/", "</li>", $replacedMd);
 
         # 쿼리 빌더로 left join에서 파일 순으로 정렬해서 받아오기, 업로드시 업로드가 빠른 순서대로 올라가짐- 그래서 파일순서가 뒤죽박죽임
         # ->first() 만 해서 받아오려고 했으나 그러면 정말 slug에 해당하는 한개만 포스트만 가져오고, postimages테이블의 내용을 볼 수가 없음
