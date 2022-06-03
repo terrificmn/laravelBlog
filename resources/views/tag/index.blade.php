@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="w-4/5 m-auto text-center">
-    <div class="py-15 border-b border-gray-200">
+    <div class="py-10 border-b border-gray-200">
         <h1 class="text-6xl">
             @if ($ralationshipModel == "post")
                 Blog Posts
@@ -35,7 +35,7 @@
                 </span>, Created on {{ date('jS M Y', strtotime($tag->updated_at)) }}
             </span>
             
-            <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
+            <p class="text-lg text-gray-700 pt-8 pb-10 leading-8 font-light">
             <?php 
 
                 $dest_len = strlen($tag->$ralationshipModel->description);
@@ -53,16 +53,16 @@
             </p>
 
             @if ($ralationshipModel == "post")
-                <a href="/blog/{{ $tag->$ralationshipModel->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+                <a href="/blog/{{ $tag->$ralationshipModel->slug }}" class="uppercase bg-blue-800 hover:text-blue-700 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
             @else
-                <a href="/portfolio/{{ $tag->$ralationshipModel->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+                <a href="/portfolio/{{ $tag->$ralationshipModel->slug }}" class="uppercase bg-blue-800 hover:text-blue-700 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
             @endif
                     Keep Reading
                 </a>
 
         </div>
 
-        <div class="m-auto pt-5">
+        <div class="m-auto pt-5 col-span-2 w-4/5 pb-2">
             <ul>
                 @forelse ($tag->$ralationshipModel->tags as $item)
                     <li class="inline italic text-gray-600 px-2 leading-normal" >

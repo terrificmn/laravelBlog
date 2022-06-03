@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="w-4/5 m-auto text-center">
-    <div class="py-15 border-b border-gray-200">
+    <div class="py-10 border-b border-gray-200">
         <h1 class="text-6xl">
             Dev-Notes
         </h1>
@@ -12,7 +12,7 @@
 
 <!-- login user auth check -->
 @if (Auth::check())  
-    <div class="pt-15 w-4/5 m-auto">
+    <div class="pt-10 w-4/5 m-auto">
         <a href="/blog/create" class="bg-blue-800 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
             Create Post
         </a>
@@ -39,7 +39,7 @@
                 </span>, Created on {{ date('jS M Y', strtotime($tag->updated_at)) }}
             </span>
             
-            <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
+            <p class="text-lg text-gray-700 pt-8 pb-10 leading-8 font-light">
             <?php 
 
                 $dest_len = strlen($tag->devnote->description);
@@ -57,13 +57,13 @@
 
             </p>
 
-            <a href="/devnote/{{ $tag->devnote->slug }}" class="uppercase bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            <a href="/devnote/{{ $tag->devnote->slug }}" class="uppercase bg-blue-800 hover:bg-blue-700 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
                 Keep Reading
             </a>
 
         </div>
 
-        <div class="m-auto pt-5">
+        <div class="m-auto pt-5 col-span-2 w-4/5 pb-2">
             <ul>
                 @forelse ($tag->devnote->tags as $item)
                     <li class="inline italic text-gray-600 px-2 leading-normal" >

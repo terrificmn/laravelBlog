@@ -4,7 +4,7 @@
         <div class="flex text-gray-100 pt-10">
             <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block text-center">
                 <h1 class="sm:text text-gray-700 text-5xl uppercase font-bold text-shadow-md pb-14">
-                    try, train hard by myself and be Taught by others 
+                    "Nothing will work unless you do."
                 </h1>
                 
                 <a href="/portfolio" class="text-center bg-gray-100 text-gray-600 hover:text-gray-800 border-indigo-400 hover:border-indigo-800  border-2 py-2 px-4 font-bold text-xl uppercase">
@@ -43,7 +43,7 @@
     <div class="text-center py-5 bg-black text-white">
         <span>
             <h2 class="text-3xl pb-5 text-1"> 
-                I'm an expert in .. (wannabe)
+                I'd be like to be an expert in ..
             </h2>
         </sapn>
         <span class="font-extrabold block text-4xl py-1">

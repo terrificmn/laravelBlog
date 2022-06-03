@@ -10,8 +10,8 @@
                     {{ __('Register') }}
                 </header>
 
-                <form class="w-full px-6 space-y-6 sm:px-10 sm:space-y-8" method="POST"
-                    action="{{ route('register') }}">
+                <form class="w-full px-6 space-y-6 sm:px-10 sm:space-y-8" {{-- method="POST"
+                    action="{{ route('register') }}" 회원가입이 필요할때 주석 해제 --}}>   
                     @csrf
 
                     <div class="flex flex-wrap">
@@ -71,10 +71,14 @@
                     </div>
 
                     <div class="flex flex-wrap">
-                        <button type="submit"
+                        {{-- <button type="submit"
                             class="w-full select-none font-bold whitespace-no-wrap p-3 rounded-lg text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-blue-700 sm:py-4">
                             {{ __('Register') }}
-                        </button>
+                        </button> --}}
+
+                        <label class="w-full text-center select-none font-bold whitespace-no-wrap p-3 rounded-lg text-base leading-normal no-underline text-gray-100 bg-gray-400 sm:py-4">
+                            Not available {{-- {{ 회원가입 필요할 때 위의 form 태그 action이랑 위의 button 주석해제할 것 }} --}}
+                        </label>
 
                         <p class="w-full text-xs text-center text-gray-700 my-6 sm:text-sm sm:my-8">
                             {{ __('Already have an account?') }}
