@@ -21,11 +21,11 @@
         
         <div class="m-auto sm:m-auto text-left w-4/5 block">
             <h2 class="text-2xl font-extrabold text-orange-600">
-                QuickSwift's Blog
+                QSP's BLOG
             </h2>
 
             <p class="py-8 text-gray-500 text-s leading-tight">
-                안녕하세요~ <br/><strong>QuickSwift</strong>의 블로그에 오신 것을 환영 합니다
+                안녕하세요~ <br/><strong>QSP</strong>의 블로그에 오신 것을 환영 합니다
             </p>
 
             <p class="font-extrabold text-gray-600 text-s pb-9 leading-snug">
@@ -43,7 +43,7 @@
     <div class="text-center py-5 bg-black text-white">
         <span>
             <h2 class="text-3xl pb-5 text-1"> 
-                I'd be like to be an expert in ..
+                I'd like to be an expert in ..
             </h2>
         </sapn>
         <span class="font-extrabold block text-4xl py-1">

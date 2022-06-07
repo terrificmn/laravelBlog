@@ -81,7 +81,7 @@
                 
                 <li class="pb-1">
                     <a href="/">
-                        QuickSwift
+                        qsp(me)
                     </a>
                 </li>
 
