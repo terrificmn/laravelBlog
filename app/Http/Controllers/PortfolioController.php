@@ -29,7 +29,7 @@ class PortfolioController extends Controller
         $result = $Post->pagination($model='Portfolio', $page);
         
         return view('portfolio.index')->with([
-            'portfolios'=> Portfolio::orderBy('updated_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
+            'portfolios'=> Portfolio::orderBy('created_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
             'page'=>$result['page'],
             'maxpage'=>$result['maxPage'],
             'STATUS_PAGE'=>$result['STATUS_PAGE']

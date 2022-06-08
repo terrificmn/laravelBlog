@@ -37,7 +37,7 @@ class PostController extends Controller
         $result = $this->pagination($model='Post', $page);
 
         return view('blog.index')->with([
-                                        'posts'=> Post::orderBy('updated_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
+                                        'posts'=> Post::orderBy('created_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
                                         'page'=>$result['page'],
                                         'maxpage'=>$result['maxPage'],
                                         'STATUS_PAGE'=>$result['STATUS_PAGE']

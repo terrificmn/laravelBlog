@@ -23,7 +23,7 @@ class DevnoteController extends Controller
         $result = $postPagination->pagination($model='Devnote', $page);
 
         return view('devnote.index')->with([
-                                        'devnotes'=> Devnote::orderBy('updated_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
+                                        'devnotes'=> Devnote::orderBy('created_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
                                         'page'=>$result['page'],
                                         'maxpage'=>$result['maxPage'],
                                         'STATUS_PAGE'=>$result['STATUS_PAGE']
