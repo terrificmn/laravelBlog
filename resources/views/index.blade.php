@@ -46,19 +46,19 @@
                 I'd like to be an expert in ..
             </h2>
         </sapn>
-        <span class="font-extrabold block text-4xl py-1">
+        <span class="font-extrabold block text-4xl py-2">
             Robotics Backend Development
         </span>
-        <span class="font-extrabold block text-4xl py-1">
+        <span class="font-extrabold block text-4xl py-2">
             Server-side Backend Development
         </span>
-        <span class="font-extrabold block text-4xl py-1">
+        <span class="font-extrabold block text-4xl py-2">
             Database Management
         </span>
-        <span class="font-extrabold block text-4xl py-1">
+        <span class="font-extrabold block text-4xl py-2">
             Machine Learning
         </span>
-        <span class="font-extrabold block text-4xl py-1">
+        <span class="font-extrabold block text-4xl py-2">
             
         </span>
 

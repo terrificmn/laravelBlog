@@ -100,7 +100,7 @@
         @endif
 
         <div class="mt-20 text-right">
-            <button type="submit" class="uppercase mt-15 bg-blue-800 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            <button type="submit" class="uppercase mt-15 bg-blue-800 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
                 Save changes
             </button>
         </div>
