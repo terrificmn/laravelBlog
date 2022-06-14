@@ -32,9 +32,16 @@
 </div>
 
 
+@include('layouts.sidebar')
+        {{-- {{ sidebar에서 이어지는 div태그 }} --}}
+        <!-- content starts -->
+        <div class="container mx-auto py-2 md:w-11/12 px-3">
+            <div class="w-full h-full rounded border-dashed border-2 border-gray-300">
+
+
 {{-- 컨트롤러에서 성공 메세지가 있으면 보여주기 --}}
 @if (session()->has('message'))
-    <div class="w-4/5 m-auto mt-10 pl-2">
+    <div class="w-4/5 m-auto mt-10">
         <p class="w-2/6 mb-4 text-gray-50 bg-green-500 rounded-2xl py-4 pl-2">
             {{ session()->get('message') }}
         </p>
@@ -59,9 +66,8 @@
 @endif
 
 @foreach ($posts as $post)
-
-    <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        <div class="py-5">
+    <div class="sm:grid grid-cols-2 gap-20 border-dashed border-b-2 border-gray-300">
+        <div class="py-2">
             @if ($post->image_path == "NONE")
                 <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
             @else
@@ -69,7 +75,7 @@
             @endif
         </div>
         
-        <div class="py-5">
+        <div class="py-2">
             <h2 class="text-gray-700 font-bold text-4xl leading-tight pb-4">
                 {{ $post->title }}
             </h2>
@@ -143,6 +149,31 @@
     </div>
 
 @endforeach
+
+            </div>
+        </div>
+    </div> <!-- sidebar -content end -->
+                <script>
+                    var sideBar = document.getElementById("mobile-nav");
+                    var openSidebar = document.getElementById("openSideBar");
+                    var closeSidebar = document.getElementById("closeSideBar");
+                    sideBar.style.transform = "translateX(-260px)";
+
+                    function sidebarHandler(flag) {
+                        if (flag) {
+                            sideBar.style.transform = "translateX(0px)";
+                            openSidebar.classList.add("hidden");
+                            closeSidebar.classList.remove("hidden");
+                        } else {
+                            sideBar.style.transform = "translateX(-260px)";
+                            closeSidebar.classList.add("hidden");
+                            openSidebar.classList.remove("hidden");
+                        }
+                    }
+                </script>
+                
+    </dh-component>
+
 
     <div class="sm:grid grid grid-cols-3 gap-5 w-4/5 mx-auto py-10 border-b border-gray-200">
         
