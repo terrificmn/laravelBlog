@@ -34,18 +34,39 @@
 
 
 <div class="w-4/5 m-auto pt-20">
-    <form
-        action="/blog" method="post" enctype="multipart/form-data">
-
+    <form action="/blog" method="post" enctype="multipart/form-data">
         @csrf
-
+        <div>
         <input type="text" name="title" placeholder="title..." class="bg-transparent block border-b-2 w-full h-15 text-xl ouline-none">
-
+        
         <textarea
             name="description"
             placeholder="Description..."
             class="py-5 bg-transparent block border-b-2 w-full h-60 text-l outlilne-none"></textarea>
+        </div>
         
+        
+        <div class="py-10 mx-auto rounded-lg">
+            <h1 class="font-semibold mb-6">카테고리 Choice:</h1>
+            <div class="flex justify-between text-sm text-center item-center">
+                @foreach($postCategories as $postCategory)
+                <div>
+                    <input name="current_category" type="radio" id="1" value="{{ $postCategory->category }}" class=""/>
+                    <label for="1" class="inline-block cursor-pointer text-gray-700 peer-hover:bg-gray-300 peer-hover:text-white peer-checked:bg-orange-700 peer-checked:text-white">
+                    {{ $postCategory->category }}
+                    </label>
+                </div>
+                @endforeach
+                
+            </div>
+            <div class="py-10">
+                <label class="m-auto">새로운 카테고리를 입력해 주세요.</label>
+                <input type="text" name="new_category" placeholder="Add new category....OR empty and choose above" class="bg-transparent block border-b-2 w-full h-10 text-l pt-5 ouline-none">
+            </div>
+        </div>
+
+
+
         <div class="py-10">
             <label class="m-auto">해쉬태그를 원하면 입력해 주세요.</label>
             <input type="text" name="tag" placeholder="tag..." class="bg-transparent block border-b-2 w-full h-10 text-l pt-5 ouline-none">

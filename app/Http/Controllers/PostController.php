@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Tag;
 use App\Models\TemporaryFile;
 use File;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -35,12 +36,16 @@ class PostController extends Controller
             $page = $request->page;
         }
         $result = $this->pagination($model='Post', $page);
+        
+        // 카테고리 넘겨주기 
+        $postCategories = DB::table('posts')->select(['category', DB::raw('count(*) as total')])->groupBy('category')->get();
 
         return view('blog.index')->with([
                                         'posts'=> Post::orderBy('created_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
                                         'page'=>$result['page'],
                                         'maxpage'=>$result['maxPage'],
-                                        'STATUS_PAGE'=>$result['STATUS_PAGE']
+                                        'STATUS_PAGE'=>$result['STATUS_PAGE'],
+                                        'postCategories'=>$postCategories
                                         ]);
     }
 
@@ -52,7 +57,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('blog.create');
+        // post의 카테고리 넘겨주기 
+        $postCategories = DB::table('posts')->select('category')->distinct('category')->get();
+        
+        return view('blog.create')->with(['postCategories'=>$postCategories]);
     }
 
     /**
@@ -107,7 +115,18 @@ class PostController extends Controller
             //dd($slug);
         }
 
-        
+        // new_category가 입력되었다면 그걸로 입력
+        if ((!$request->input('new_category')) ) {
+            // new_category 입력이 없다면 현재 카테고리중에서 선택 // 이마저도 입력 안하면 redirect 시킴
+            if ((!$request->input('current_category')) ) {
+                return redirect('/blog/create')->with('message', 'category를 정해주세요!');
+            } else {
+                $category = $request->input('current_category');
+            }
+        } else {
+            $category = $request->input('new_category');
+        }
+
         $post = Post::create([
             'title' => $request->input('title'),
             'description' => trim($request->input('description')),
@@ -119,6 +138,7 @@ class PostController extends Controller
             #'slug' => Str::slug($request->title),
             'slug' => $slug,
             'image_path' => $newImageName,
+            'category' => $category,
             'user_id' => auth()->user()->id
         ]);
         
@@ -291,7 +311,10 @@ class PostController extends Controller
      */
     public function edit($slug)
     {
-        return view('blog.edit')->with('post', Post::where('slug', $slug)->first());
+        // post의 카테고리 넘겨주기 -category목록
+        $postCategories = DB::table('posts')->select('category')->distinct('category')->get();
+
+        return view('blog.edit')->with(['post' => Post::where('slug', $slug)->first(), 'postCategories' => $postCategories]);
 
     }
 
@@ -320,14 +343,19 @@ class PostController extends Controller
         if (isset($_FILES['mdfile']) and $_FILES['mdfile']['error'] == 0) {
             // 뭔가 $_FILES에 error가 있어서 있기는 있는 거래서 여기로 들어오게 됨 그래서 ['error'] 추가
             // 에러가 없어야지 실행
-
             // 아규먼트 넘겨줄려고 했으나, $_FILES가 슈퍼글로벌이여서 그냥 안넘김
             $updatedMdfile = $this->processingMdfile(); 
+            if(!$updatedMdfile) {  //false 면 파일형식에서 에러
+                return redirect('/blog/'.$exSlug.'/edit')->with('message', 'md파일 형식이 아닙니다!');
+            }
 
         } else { // 파일업로드 없으면 
-            $updatedMdfile = $request->input('textMd');
+            if(!$request->input('textMd')) {  // 처음부터 mdfile 자체를 업로드를 안한경우 textMD input도 없음
+                $updatedMdfile = 'NONE';  // store()메소드에서 NONE 문자열 처리를 했는데 아직도 이 방식을 사용;;; 더 좋은 방식을 찾아야함 
+            } else {  // 업로드가 있다면 textMD input그대로 가져감
+                $updatedMdfile = $request->input('textMd');
+            }
         }
-
 
         // image re-upload 
         if (!$request->image) {
@@ -354,12 +382,26 @@ class PostController extends Controller
         }
 
 
+        // new_category가 입력되었다면 그걸로 입력
+        if ((!$request->input('new_category')) ) {
+            // new_category 입력이 없다면 현재 카테고리중에서 선택 -무조건 체크되어 넘어오지만 null 값이 있을 경우 체크
+            if((!$request->input('current_category')) ) {
+                $category = "etc";
+            } else {
+                $category = $request->input('current_category');
+            }
+
+        } else {
+            $category = $request->input('new_category');
+        }
+
         Post::where('slug', $exSlug)->update( [ 
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'convertedMd' => $updatedMdfile,
             'slug' => $slug, #한글 인식되는 slug방식으로 업데이트
             'image_path' => $newImageName,
+            'category' => $category,
             'user_id' => auth()->user()->id
         ]);
 
@@ -407,7 +449,6 @@ class PostController extends Controller
                 $fileSize = $_FILES['mdfile']['size'];
                 
                 $fileType = $_FILES['mdfile']['type'];
-                
                 $fileExt = explode('.', $fileName);
                 $fileActualExt = strtolower(end($fileExt));
                 $allowed = array('md');

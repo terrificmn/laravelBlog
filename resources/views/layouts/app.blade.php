@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        <div>
+        <div class="w-full h-full">
             @yield('content')
         </div>
 
