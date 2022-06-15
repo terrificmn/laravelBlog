@@ -3,15 +3,16 @@
 @section('page_title', 'Blog | My Posts')
 
 @section('content')
-<div class="w-4/5 m-auto text-left py-10">
-    <div class="py-5">
+<div class="md:w-4/5 m-auto text-left py-10"> 
+{{-- md 크기에서만 4/5 사용할 수 있게 함, 최소작은사이즈에서는 4/5는 사용안하게됨 --}}
+    <div class="py-5 px-5">
         <h1 class="text-3xl leading-normal">
             {{ $post->title }}
         </h1>
     </div>
 </div>
 
-<div class="w-4/5 m-auto">
+<div class="md:w-4/5 m-auto px-5">
     <span class="text-gray-500">By 
         <span class="font-bold italic text-gray-800">
             {{$post->user->name }}

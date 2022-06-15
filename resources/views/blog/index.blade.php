@@ -36,8 +36,8 @@
         {{-- {{ sidebar에서 이어지는 div태그 }} --}}
         <!-- content starts -->
         <div class="container mx-auto py-2 md:w-11/12 px-3">
-            <div class="w-full h-full rounded border-dashed border-2 border-gray-300">
-
+            <div class="w-full h-full rounded"> 
+            {{-- border-dashed border-2 border-gray-300 주변 점선 보기 --}}
 
 {{-- 컨트롤러에서 성공 메세지가 있으면 보여주기 --}}
 @if (session()->has('message'))
@@ -67,7 +67,7 @@
 
 @foreach ($posts as $post)
     <div class="sm:grid grid-cols-2 gap-20 border-dashed border-b-2 border-gray-300">
-        <div class="py-2">
+        <div class="py-2 px-2">
             @if ($post->image_path == "NONE")
                 <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
             @else
@@ -75,7 +75,7 @@
             @endif
         </div>
         
-        <div class="py-2">
+        <div class="py-2 px-2">
             <h2 class="text-gray-700 font-bold text-4xl leading-tight pb-4">
                 {{ $post->title }}
             </h2>
@@ -131,7 +131,7 @@
             @endif
         </div>
 
-        <div class="m-auto py-5 col-span-2 w-4/5 pb-2">
+        <div class="m-auto py-5 col-span-2 w-4/5 pb-5">
             <ul>
                 @forelse ($post->tags as $tag )
                     <li class='inline italic text-gray-600 px-2 leading-normal'>
@@ -152,25 +152,25 @@
 
             </div>
         </div>
-    </div> <!-- sidebar -content end -->
-                <script>
-                    var sideBar = document.getElementById("mobile-nav");
-                    var openSidebar = document.getElementById("openSideBar");
-                    var closeSidebar = document.getElementById("closeSideBar");
-                    sideBar.style.transform = "translateX(-260px)";
+    </div> {{-- sidebar.blade.php에서 시작된 sidebar and content 끝 --}}
+            <script>
+                var sideBar = document.getElementById("mobile-nav");
+                var openSidebar = document.getElementById("openSideBar");
+                var closeSidebar = document.getElementById("closeSideBar");
+                sideBar.style.transform = "translateX(-260px)";
 
-                    function sidebarHandler(flag) {
-                        if (flag) {
-                            sideBar.style.transform = "translateX(0px)";
-                            openSidebar.classList.add("hidden");
-                            closeSidebar.classList.remove("hidden");
-                        } else {
-                            sideBar.style.transform = "translateX(-260px)";
-                            closeSidebar.classList.add("hidden");
-                            openSidebar.classList.remove("hidden");
-                        }
+                function sidebarHandler(flag) {
+                    if (flag) {
+                        sideBar.style.transform = "translateX(0px)";
+                        openSidebar.classList.add("hidden");
+                        closeSidebar.classList.remove("hidden");
+                    } else {
+                        sideBar.style.transform = "translateX(-260px)";
+                        closeSidebar.classList.add("hidden");
+                        openSidebar.classList.remove("hidden");
                     }
-                </script>
+                }
+            </script>
                 
     </dh-component>
 

@@ -38,7 +38,6 @@ class PostController extends Controller
         $result = $this->pagination($model='Post', $page);
         
         // 카테고리 넘겨주기 
-        //$postCategories = DB::table('posts')->select('category')->distinct('category')->get();1
         $postCategories = DB::table('posts')->select(['category', DB::raw('count(*) as total')])->groupBy('category')->get();
 
         return view('blog.index')->with([
