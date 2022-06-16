@@ -1,7 +1,7 @@
-<footer class="bg-yellow-300 py-20 mt-20"> <!--bg-gray-800-->
-    <div class="sm:grid grid-cols-3 w-4/5 pb-3 m-auto border-b-2 border-gray-700">
+<footer class="bg-yellow-300 dark:bg-gray-800 py-20 mt-20"> <!--bg-gray-800-->
+    <div class="sm:grid grid-cols-3 w-4/5 pb-3 m-auto border-b-2 border-gray-500">
         <div>
-            <h3 class="text-l sm:font-bold font-bold uppercase text-black">
+            <h3 class="text-l sm:font-bold font-bold uppercase text-black dark:text-white">
                 Pages
             </h3>
             
@@ -35,7 +35,7 @@
 
 
         <div>
-            <h3 class="text-l sm:font-bold font-bold uppercase text-black">
+            <h3 class="text-l sm:font-bold font-bold uppercase text-black dark:text-white">
                 Find Me
             </h3>
             
@@ -68,7 +68,7 @@
         </div>
 
         <div>
-            <h3 class="text-l font-bold uppercase text-black">
+            <h3 class="text-l font-bold uppercase text-black dark:text-white">
                 This website is
             </h3>
             
@@ -92,8 +92,8 @@
 
         </div>
     
-        <div class="col-span-3 border-t-2 border-gray-300">
-            <p class="w-4/5 m-auto text-gray-600 pt-6 text-center">
+        <div class="col-span-3 border-t-2 border-gray-500">
+            <p class="w-4/5 m-auto text-gray-600 dark:text-white pt-8 pb-1 text-center">
             Copyright 2021. All right reserved
         </div>
 

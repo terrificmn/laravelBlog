@@ -29,7 +29,8 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 
 </head>
-<body class="bg-gray-100 h-screen antialiased leading-none font-sans">
+<body class="bg-gray-100 dark:bg-gray-400 h-screen antialiased leading-none font-sans">
+    {{-- 다크모드 gray-400 이 타이틀, 본문내용 글자등을 안 바꾸고 대충? 쓸만함. 대신 엄청 촌스러움. 추후 업데이트하기 --}}
     <div id="app">
 
         {{-- 내비 메뉴 시작 

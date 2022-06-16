@@ -236,6 +236,11 @@ class PostController extends Controller
         // posts 테이블 중 convertedMd 내용에서 태그들 수정
         $posts = Post::where('slug', $slug)->first();
         
+        // 주소로 slug가 엉뚱한 값으로 입력되어서 db없을 때 처리  //주소를 브라우저에 직접 입력했을 때
+        if(empty($posts)) {
+            return redirect('/blog')->with('error_msg', "No such a post here");
+        }
+
         $originMd = $posts->convertedMd;
         $replacedMd = preg_replace("/<h1>/", "<h1 class=\"text-4xl text-yellow-600 py-1 leading-normal\">", $originMd);
         $replacedMd = preg_replace("/<\/h1>/", "<hr class=\"border-2\"></h1>", $replacedMd);
@@ -243,11 +248,12 @@ class PostController extends Controller
         $replacedMd = preg_replace("/<\/h2>/", "<hr class=\"border\"></h2>", $replacedMd);
         $replacedMd = preg_replace("/<h3>/", "<h3 class=\"text-xl text-indigo-400 py-1 leading-normal\">", $replacedMd);
         $replacedMd = preg_replace("/<blockquote>/", "<blockquote class=\"p-2 mx-6 bg-gray-200 mb-4 border-l-8 rounded-md border-gray-400 italic\">", $replacedMd);
-        $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg m-5 w-5/6 mx-auto text-gray-200\">", $replacedMd);
-        $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-400 text-left border-b border-gray-300\">", $replacedMd);
-        $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-300 border-b border-gray-500 hover:bg-gray-200\">", $replacedMd);
+        $replacedMd = preg_replace("/<table>/", "<table class=\"rounded-t-lg w-5/6 text-gray-200\">", $replacedMd);
+        $replacedMd = preg_replace("/<th>/", "<th class=\"bg-gray-400 text-left px-2\">", $replacedMd);
+        $replacedMd = preg_replace("/<tr>/", "<tr class=\"bg-gray-300 px-2 border-b border-gray-500 hover:bg-gray-200\">", $replacedMd);
+        $replacedMd = preg_replace("/<td>/", "<td class=\"px-2\">", $replacedMd);
         $replacedMd = preg_replace("/<a href=/", "<a class=\"text-sky-400 hover:underline\" href=", $replacedMd);
-        $replacedMd = preg_replace("/<ol>/", "<ol class=\"list-decimal md:list-inside\">", $replacedMd);
+        $replacedMd = preg_replace("/<ol>/", "<ol class=\"list-decimal list-inside\">", $replacedMd);
         $replacedMd = preg_replace("/<ul>/", "<ul class=\"list-disc list-inside pl-4\">", $replacedMd);
         // ul태그 변환된 것이 무조건 p태그가 붙어서 한칸이 띄어지게 됨
         // 삭제한 이유는 ol 태그 다음에 한칸내려서 쓰게 되면 무조건 p태그이 붙어서 강제로 없애기 

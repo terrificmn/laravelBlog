@@ -48,7 +48,7 @@
     </div>
 <!-- 파일저장 실패시 -->
 @elseif (session()->has('error_msg'))
-    <div class="w-4/5 m-auto mt-10 pl-2">
+    <div class="w-4/5 m-auto mt-10">
         <p class="w-2/6 mb-4 text-gray-50 bg-red-500 rounded-2xl py-4 pl-2">
             {{ session()->get('error_msg') }}
         </p>
@@ -67,7 +67,7 @@
 
 @if (!$posts->isEmpty())
     @foreach ($posts as $post)
-        <div class="sm:grid grid-cols-2 gap-10 border-dashed border-b-2 border-gray-300">
+        <div class="sm:grid grid-cols-2 gap-10 border-dashed border-b-2 border-gray-300 md:w-11/12">
             <div class="py-2 px-2">
                 @if ($post->image_path == "NONE")
                     <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
