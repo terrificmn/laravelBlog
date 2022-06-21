@@ -28,7 +28,7 @@
     <div class="text-base text-gray-700 pt-1 pb-1 leading-8 font-normal space-y-4">
         {{-- {!! $post->convertedMd !!} --}}
         {!! $postMd !!}
-        
+        <p class="pl-4"> {{-- tailwindcss class를 만들어주기 위해서 컨트롤러에서 만들어지는 것으로 생성이 안되는 듯 특히 npm run prod 할 때 --}}
     </div>
     
     <div class="pt-5">
