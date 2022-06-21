@@ -13,6 +13,8 @@ use App\Models\TemporaryFile;
 use File;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PostController extends Controller
 {
     public function __construct()
@@ -263,8 +265,29 @@ class PostController extends Controller
         // 2.
         // blas~bla 이런식으로 나오게 됨 .. 이를 방지하고자 하는 것   
         // 정규식 중 \n 으로 하면 되지만, 일부에서는 안되서 \r 과 \n 둘 다 만족이 되는 듯 (리눅스가\n 근데 리눅스에서안됨;;;) [\r\n]+  또는 \r?\n
-        $replacedMd = preg_replace("/<li>[\r\n]+<p>/", "<li>", $replacedMd);
-        $replacedMd = preg_replace("/<\/p>[\r\n]+<\/li>/", "</li>", $replacedMd);
+        $replacedMd = preg_replace("/<li>[\r\n]+<p>/", "<li>", $replacedMd);    
+
+        // 이제 li 태그내에서 들여쓰기를 해주기 위해서 진행 - 일단 li 내에서 <br/>로 한칸이 내려지는데 <br/>만 가려내기 위한 regular expression
+        // matches 변수로 배열 반환
+        $regResult = preg_match_all("/(<li>[\w가-힣?,.\/?;:'\[\]{}|`~!@#%&\*\(\)\-\=\+<br \/>]*)/", $replacedMd, $matches, PREG_OFFSET_CAPTURE);    
+        //dd($matches);
+        if($regResult > 0) { //li tag 관련해서 있을 때만 진행
+            foreach ($matches[0] as $match) {
+                // 골라진 li들의 내용 중 br 을 p class변환 (for indent)
+                $brReplacedToP = preg_replace("/<br \/>/", "<p class=\"pl-4\">", $match); 
+                $strReplacePositions[] = array(
+                                        "strOrigin" => $match[0], //원래 str
+                                        "strReplaced" => $brReplacedToP[0] // 변환된 str
+                                        //"strPosition" => $brReplacedToP[1]  // 시작하는 위치 //현재필요하지는 않음
+                                    );
+            }
+            // 이제 replacedMD (mdfile) 에서 바꿔주기 
+            foreach($strReplacePositions as $strReplacePosition) {
+                $replacedMd = str_replace($strReplacePosition["strOrigin"], $strReplacePosition["strReplaced"], $replacedMd);
+            }
+        }
+        
+        $replacedMd = preg_replace("/<\/p>[\r\n]+<\/li>/", "</li><br />", $replacedMd); // p태그 없애고, 한 칸 띄어줌 (li 사이 한칸 띄어짐)
 
         # 쿼리 빌더로 left join에서 파일 순으로 정렬해서 받아오기, 업로드시 업로드가 빠른 순서대로 올라가짐- 그래서 파일순서가 뒤죽박죽임
         # ->first() 만 해서 받아오려고 했으나 그러면 정말 slug에 해당하는 한개만 포스트만 가져오고, postimages테이블의 내용을 볼 수가 없음
