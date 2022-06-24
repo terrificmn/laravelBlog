@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
-@section('page_title', 'Blog | My Posts')
+{{-- @section('page_title', '$metaTitle | My Post') --}}
+
+@section('metaDescription', $metaDesc)
+
+@section('metaKeywords')
+    @forelse($post->tags as $tag)
+        {{ $tag['tag_name'] }}
+    @empty 
+        qspblog ros2 ros laravel
+    @endforelse
+@endsection
 
 @section('content')
 <div class="md:w-4/5 m-auto text-left py-10"> 

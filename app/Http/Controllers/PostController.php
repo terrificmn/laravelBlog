@@ -372,10 +372,22 @@ class PostController extends Controller
             $commentText = [];
         }
         
+
+        $post = Post::where('slug', $slug)->first();
+
+        // meta tag 관련해서 description 내용 줄여서 넘기기
+        if (strlen($post->description) > 80) {
+            $resizedDescription = mb_substr($post->description, 0, 80, 'UTF-8');  //substr_repalce() 비해 글자가 안 짤림
+            
+        } else {
+            $resizedDescription = $post->description;
+        }
+
         // 기존 post모델 컬렉션? 에서 추가로 변환된 convertedMd컬럼도 보냄, 댓글(comment)도 보냄
-        return view('blog.show')->with(['post'=> Post::where('slug', $slug)->first(),
+        return view('blog.show')->with(['post'=> $post,
                                         'postMd'=> $replacedMd,
-                                        'commentTxt' => $commentText
+                                        'commentTxt' => $commentText,
+                                        'metaDesc' => $resizedDescription
                                         ]);
         
     }
