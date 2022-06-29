@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('page_title', 'Blog | My Posts')
+@section('metaDescription', $metaDesc)
+
+@section('metaKeywords', '')
 
 @section('content')
 <div class="w-4/5 m-auto text-center">

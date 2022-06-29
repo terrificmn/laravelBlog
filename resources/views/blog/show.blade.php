@@ -1,16 +1,14 @@
 @extends('layouts.app')
 
-{{-- @section('page_title', '$metaTitle | My Post') --}}
-
 @section('metaDescription', $metaDesc)
 
-@section('metaKeywords')
-    @forelse($post->tags as $tag)
+@section('metaKeywords', $metaKeywords)
+    {{-- @forelse($post->tags as $tag) {{ 컨트롤럴에서 직접 처리 }}
         {{ $tag['tag_name'] }}
     @empty 
         qspblog ros2 ros laravel
     @endforelse
-@endsection
+@endsection --}}
 
 @section('content')
 <div class="md:w-4/5 m-auto text-left py-10"> 

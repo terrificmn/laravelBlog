@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('page_title', 'Note | My Dev-notes')
+@section('metaDescription', '')
+{{-- {{ 추후 업데이트 하기 }} --}}
+@section('metaKeywords', '')
 
 @section('content')
 <div class="w-4/5 m-auto text-center">

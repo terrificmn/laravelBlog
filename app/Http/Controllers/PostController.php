@@ -41,13 +41,21 @@ class PostController extends Controller
         
         // 카테고리 넘겨주기 
         $postCategories = DB::table('posts')->select(['category', DB::raw('count(*) as total')])->groupBy('category')->get();
+        
+        $metaDesc = ""; //문자열초기화
+        foreach($postCategories as $postCategory) {
+            //문자열 결합
+            $metaDesc .= $postCategory->category . " "; 
+        }
+        $metaDesc = (trim($metaDesc));
 
         return view('blog.index')->with([
                                         'posts'=> Post::orderBy('created_at', 'DESC')->skip($result['skip'])->take($result['limit'])->get(),
                                         'page'=>$result['page'],
                                         'maxpage'=>$result['maxPage'],
                                         'STATUS_PAGE'=>$result['STATUS_PAGE'],
-                                        'postCategories'=>$postCategories
+                                        'postCategories'=>$postCategories,
+                                        'metaDesc'=>$metaDesc
                                         ]);
     }
 
@@ -383,11 +391,26 @@ class PostController extends Controller
             $resizedDescription = $post->description;
         }
 
+        // meta 키워드 보내기 위해서 처리 문자열 결합
+        $metaKeywords = "";
+        foreach ($post->tags as $tag) {
+            //결합
+            $metaKeywords .= $tag['tag_name'] . ' ';
+        }
+        
+        // tag가 없어서 문자열 안 만들어졌을 경우 처리
+        if($metaKeywords != NULL) {
+            $metaKeywords = trim($metaKeywords);
+        } else {
+            $metaKeywords = "qspblog ros2 ros robot amr cpp python php laravel";
+        }
+
         // 기존 post모델 컬렉션? 에서 추가로 변환된 convertedMd컬럼도 보냄, 댓글(comment)도 보냄
         return view('blog.show')->with(['post'=> $post,
                                         'postMd'=> $replacedMd,
                                         'commentTxt' => $commentText,
-                                        'metaDesc' => $resizedDescription
+                                        'metaDesc' => $resizedDescription,
+                                        'metaKeywords' => $metaKeywords
                                         ]);
         
     }

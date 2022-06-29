@@ -2,8 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     
-    {{-- <title> @yield('page_title') </title> --}}
-    <title> {{ isset($metaTitle) ? $metaTitle : 'Laravel - qsp\'s blog' }} </title>
+    <title> {{ isset($metaTitle) ? $metaTitle : 'Welcome to qsp\'s blog | Laravel' }} </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
