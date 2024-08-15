@@ -47,6 +47,13 @@ Route::get('/devnote/{slug}', 'App\Http\Controllers\DevnoteController@show');
 Route::resource('/portfolio', 'App\Http\Controllers\PortfolioController');
 
 Route::get('/category/{categoryName}', 'App\Http\Controllers\CategoryController@index');
+
+
+Route::get('/git', 'App\Http\Controllers\ApiController@index');
+Route::post('/git/set_token', 'App\Http\Controllers\ApiController@setToken');
+Route::post('/git/get_token', 'App\Http\Controllers\ApiController@getToken');
+
+
 // Auth::routes();
 
 // Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');

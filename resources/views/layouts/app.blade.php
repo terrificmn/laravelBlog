@@ -32,6 +32,9 @@
     <!-- nav menu -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 <body class="bg-gray-100 dark:bg-gray-400 h-screen antialiased leading-none font-sans">
     {{-- 다크모드 gray-400 이 타이틀, 본문내용 글자등을 안 바꾸고 대충? 쓸만함. 대신 엄청 촌스러움. 추후 업데이트하기 --}}
