@@ -8,9 +8,8 @@
 <div class="w-4/5 m-auto text-center">
     <div class="py-10 border-b border-gray-200">
         <h1 class="text-6xl">
-            Hello New ApI TEST
+            ApI GIT
         </h1>
-    
 
         <div class="p-6">
             <form action="/search" method="GET">
@@ -30,7 +29,6 @@
 
     </div>
 
-    
 </div>
 
 
@@ -51,40 +49,34 @@
 @endif
 
 <!-- login user auth check -->
-@if (Auth::check())  
-    <div class="py-8 w-4/5 m-auto">
-        <a href="/devnote/create" class="bg-cyan-300 hover:bg-cyan-400 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
-            Create Post
-        </a>
-    </div>
-
-@endif
-
-    {{-- {{ API git lists  }} --}}
-    
+{{-- {{ API git lists  }} --}}
+@if (Auth::check())     
     <div class="py-8 w-4/5 m-auto">
         <div class="py-2 w-4/5">
-            <p> git token 등록 </p>
+            <p> git token / pwd 등록,수정 </p>
         </div>
-        <form action="{{ url('/git/set_token') }}" method="POST" id="add_post">
+        <form action="{{ url('/git/set_token') }}" method="POST" id="set_git_post">
         @csrf
-            <input type="text" name="a_title" id="a_title">
-            {{-- <input type="text" name="a_description" id="a_description"> --}}
-
-            <input type="submit" name="submit" value="submit">
-        </form>
-    </div>
-
-    <div class="py-8 w-4/5 m-auto">
-        <div class="py-2 w-4/5">
-            <p> git password 등록 </p>
-        </div>
-        <form action="{{ url('/git/set_pwd') }}" method="POST" id="set_pwd">
-        @csrf
-            <input type="text" name="git_pwd">
-            <input type="text" name="git_pwd_check">
-
-            <input type="submit" name="submit" value="submit">
+            <div>
+                <input type="text" name="git_token" id="git_token" placeholder="git token">
+            </div>
+            <div class="py-2">
+                <input type="password" name="git_pwd" placeholder="password">
+                <input type="password" name="git_pwd_check" placeholder="password check">
+            </div>
+            <div class="py-1">
+                <fieldset>
+                    <input type="radio" name="git_radio" id="git_full" value="r_full" checked />
+                    <label for="radio1">Full</label>
+                    <input type="radio" name="git_radio" id="git_token_only" value="r_token"/>
+                    <label for="radio2">Token only</label>
+                    <input type="radio" name="git_radio" id="git_pwd_only" value="r_pwd"/>
+                    <label for="radio3">Password only</label>
+                </fieldset>
+                <div class="py-3">
+                    <input type="submit" name="submit" value="submit" class="bg-yellow-300 hover:bg-yellow-400 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
+                </div>
+            </div>
         </form>
     </div>
 
@@ -92,11 +84,12 @@
         <div class="py-2 w-4/5">
             <p> git token 조회 </p>
         </div>
-        <form action="{{ url('/git/get_token') }}" method="POST" id="get_token">
+        <form action="{{ url('/git/get_token') }}" method="POST" id="get_token_post">
         @csrf
-            <input type="text" name="git_pwd_1">
-
-            <input type="submit" name="submit" value="submit">
+            <div class="py-1">
+                <input type="password" name="pwd_to_check">
+                <input type="submit" name="submit" value="submit" class="bg-yellow-300 hover:bg-yellow-400 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
+            </div>
         </form>
     </div>
 
@@ -104,123 +97,10 @@
         <div name="paragraph" id="paragraph">
         </div>
     </div>
+@endif
 
-
-
-@foreach ($devnotes as $note)
 
     <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        <div class="py-5">
-            @if ($note->image_path == "NONE")
-                <img src="https://cdn.pixabay.com/photo/2015/11/28/21/44/business-1067978_960_720.jpg" alt="" width="700">
-            @else
-                <img src="{{ asset('images/' .$note->image_path) }}" alt="" width="700">
-            @endif
-        </div>
-        
-        <div class="py-5">
-            <h2 class="text-gray-700 font-bold text-4xl pb-4">
-                {{ $note->title }}
-            </h2>
-
-            <span class="text-gray-500"> By <span class="font-bold italic text-gray-800">
-                {{ $note->user->name }}
-                </span>, Created on {{ date('jS M Y', strtotime($note->updated_at)) }}
-            </span>
-            
-            
-                <p class="text-lg text-gray-700 pt-8 pb-10 leading-8 font-light">
-                <?php 
-
-                $dest_len = strlen($note->description);
-                if ($dest_len < 100) {
-                    $substring = strip_tags($note->description);
-                    echo $substring;
-                    //echo $note->description;
-
-                } else { #100자 이상이면 ...을 붙여준다
-                    #substring은 한글이 깨져서 mb_substr()로 대체
-                    $substring = mb_substr($note->description, 0, 50, 'UTF-8');
-                    echo strip_tags($substring ).' ...';
-                    //echo $substring;
-                }
-                ?>
-                </p>
-            
-            <a href="/devnote/{{ $note->slug }}" class="uppercase bg-blue-800 hover:bg-blue-700 text-gray-100 text-lg font-extrabold py-3 px-8 rounded-3xl">
-                Keep Reading
-            </a>
-
-            {{-- 사용자 확인 --}}
-            @if (isset(Auth::user()->id) && Auth::user()->id == $note->user_id)
-                <span class="float-right">
-                    <a href="/devnote/{{ $note->slug }}/edit" class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                        Edit 
-                    </a>
-                </span>
-
-                <span class="float-right">
-                    <form
-                        {{-- action="/devnote/{{ $note->slug }}" --}}
-                        action="/devnote/{{ $note->id }}"
-                        method="post">
-                        @csrf
-                        @method('DELETE')
-
-                        <button 
-                            class="text-red-500 pr-3" type="submit">
-                            Delete
-                        </button>
-                    </form>
-                </span>
-                
-            @endif
-        </div>
-        
-        <div class="m-auto pt-5 col-span-2 w-4/5 pb-2">
-            <ul>
-                @forelse ($note->tags as $tag )
-                    <li class='inline italic text-gray-600 px-2 leading-normal'>
-                        <a href="/tag/{{ $tag['tag_name'] }}?whichTag=Devtag"> {{ '#'.$tag['tag_name'] }} </a>   
-                    </li>
-                @empty
-                    <li class='inline italic text-gray-600 px-1 py-3'>
-                        등록된 tag가 없습니다.
-                    </li>
-                @endforelse
-            </ul>
-        </div>
-
-    </div>
-
-@endforeach
-
-    <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-    
-        @if ($maxpage > 1)
-            @if ($STATUS_PAGE == -1)
-                <a href="/devnote?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
-                previous page 
-                </a>
-
-            @elseif ($STATUS_PAGE == 0)
-                <a href="/devnote?page={{intval($page)-1}}" class="uppercase text-yellow-400 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
-                previous page 
-                </a>
-
-                <a href="/devnote?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-                next page </a>
-                
-            @elseif ($STATUS_PAGE == 1)
-                <a href="/devnote?page={{intval($page)+1}}" class="uppercase text-blue-500 text-justify"> 
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
-                next page </a>
-            @endif
-        
-        @endif
     </div>
 
 
@@ -228,28 +108,19 @@
         // Document 객체가 loaded 되는 시점에 실행이 되게 됨.
         $(document).ready(function() {
             // Handler when the DOM is fully loaded
-            $('#add_post').on('submit', function(event) {
+            $('#set_git_post').on('submit', function(event) {
                 let url = "{{ url('/git/set_token') }}"
-                testAjax(url, '#add_post');
+                requestAjax(url, '#set_git_post');
             });
 
-            $('#set_pwd').on('submit', function(event) {
-                let url = "{{ url('/git/set_pwd') }}"
-                testAjax(url, '#set_pwd');
-            }); 
-
-            $('#get_token').on('submit', function(event) {
+            $('#get_token_post').on('submit', function(event) {
                 let url = "{{ url('/git/get_token') }}"
-                testAjax(url, '#get_token');
+                requestAjax(url, '#get_token_post');
             }); 
         });
         
-        function testAjax(url, form_id) {
+        function requestAjax(url, form_id) {
             event.preventDefault();  // 페이지가 reload가 되는 것을 막아주는 함수
-            // preventDefault()를 사용안하게 되면 새로 고침이 되버린다.
-            // alert("hello ajax")
-            let ajax_subject = $("#a_title").val();  // class 는 . 으로 접근, id는 #으로 접근
-
             // csrf token 셋팅 중요
             $.ajaxSetup({
                 headers: {
@@ -268,18 +139,19 @@
                 // data: {'a_title' : ajax_subject },
                     success: function(response) {
                         // Update the content on success
-                        /// success 일 경우에 함수 호출
                         // /// controller 에서 return 해준 json을 받을 수가 있다.
-                        // jQuery('#message').html(result.message);
-                        // jQuery('#add_post')[0].reset(); /// 해당 form의 input박스 내용을 지워준다.
-                        jQuery('#add_post')[0].reset(); /// 해당 form의 input박스 내용을 지워준다.
-                        // jQuery('#paragraph').html(response.title);
+                        // console.log("res:", response);
+                        if(response.res_type == "set_token") {
+                            jQuery('#set_git_post')[0].reset(); /// 해당 form의 input박스 내용을 지워준다.
+                        
+                        } else if(response.res_type == "get_token") {
+                            jQuery('#get_token_post')[0].reset(); /// 해당 form의 input박스 내용을 지워준다.
+                        }
+                        
                         $('#paragraph').html(response.msg);
-                        // $("#paragraph").text('ajax suceess: ' + response.title);
                     },
                     error: function(error) {
                         // Handle errors
-                        // console.log("error but data", ajax_data);
                         console.error("ajax error:", error);
                     }
             });

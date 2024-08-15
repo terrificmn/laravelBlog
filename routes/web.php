@@ -51,7 +51,6 @@ Route::get('/category/{categoryName}', 'App\Http\Controllers\CategoryController@
 
 Route::get('/git', 'App\Http\Controllers\ApiController@index');
 Route::post('/git/set_token', 'App\Http\Controllers\ApiController@setToken');
-Route::post("/git/set_pwd", 'App\Http\Controllers\ApiController@setPwd');
 Route::post('/git/get_token', 'App\Http\Controllers\ApiController@getToken');
 
 

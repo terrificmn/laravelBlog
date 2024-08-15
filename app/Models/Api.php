@@ -9,7 +9,7 @@ class Api extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'git_token', 'user_id'];
+    protected $fillable = ['id', 'git_token', 'git_pwd', 'user_id'];
     
     public function user() {
         //one git belongs to User table's id
